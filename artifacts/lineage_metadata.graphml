@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="d6" for="edge" attr.name="weight" attr.type="double" />
+  <key id="d5" for="edge" attr.name="orphan_rows" attr.type="long" />
+  <key id="d4" for="edge" attr.name="fk" attr.type="string" />
+  <key id="d3" for="edge" attr.name="label" attr.type="string" />
+  <key id="d2" for="node" attr.name="columns" attr.type="string" />
+  <key id="d1" for="node" attr.name="rows" attr.type="long" />
+  <key id="d0" for="node" attr.name="label" attr.type="string" />
+  <graph edgedefault="directed">
+    <node id="account">
+      <data key="d0">account (4,500)</data>
+      <data key="d1">4500</data>
+      <data key="d2">account_id,district_id,frequency,date</data>
+    </node>
+    <node id="card">
+      <data key="d0">card (892)</data>
+      <data key="d1">892</data>
+      <data key="d2">card_id,disp_id,type,issued</data>
+    </node>
+    <node id="client">
+      <data key="d0">client (5,369)</data>
+      <data key="d1">5369</data>
+      <data key="d2">client_id,birth_number,district_id</data>
+    </node>
+    <node id="disp">
+      <data key="d0">disp (5,369)</data>
+      <data key="d1">5369</data>
+      <data key="d2">disp_id,client_id,account_id,type</data>
+    </node>
+    <node id="district">
+      <data key="d0">district (77)</data>
+      <data key="d1">77</data>
+      <data key="d2">district_id,name,region,pop,m499,m1999,m9999,m10000,n_cities,urban_ratio,avg_salary,unemp95,unemp96,entrep_per1000,crime95,crime96</data>
+    </node>
+    <node id="loan">
+      <data key="d0">loan (682)</data>
+      <data key="d1">682</data>
+      <data key="d2">loan_id,account_id,date,amount,duration,payments,status</data>
+    </node>
+    <node id="order">
+      <data key="d0">order (6,471)</data>
+      <data key="d1">6471</data>
+      <data key="d2">order_id,account_id,bank_to,account_to,amount,k_symbol</data>
+    </node>
+    <node id="trans">
+      <data key="d0">trans (1,056,320)</data>
+      <data key="d1">1056320</data>
+      <data key="d2">trans_id,account_id,date,type,operation,amount,balance,k_symbol,bank,account</data>
+    </node>
+    <edge source="account" target="district">
+      <data key="d3">district_id-&gt;district_id</data>
+      <data key="d4">district_id-&gt;district_id</data>
+      <data key="d5">0</data>
+      <data key="d6">1.0</data>
+    </edge>
+    <edge source="card" target="disp">
+      <data key="d3">disp_id-&gt;disp_id</data>
+      <data key="d4">disp_id-&gt;disp_id</data>
+      <data key="d5">0</data>
+      <data key="d6">1.0</data>
+    </edge>
+    <edge source="client" target="district">
+      <data key="d3">district_id-&gt;district_id</data>
+      <data key="d4">district_id-&gt;district_id</data>
+      <data key="d5">0</data>
+      <data key="d6">1.0</data>
+    </edge>
+    <edge source="disp" target="client">
+      <data key="d3">client_id-&gt;client_id</data>
+      <data key="d4">client_id-&gt;client_id</data>
+      <data key="d5">0</data>
+      <data key="d6">1.0</data>
+    </edge>
+    <edge source="disp" target="account">
+      <data key="d3">account_id-&gt;account_id</data>
+      <data key="d4">account_id-&gt;account_id</data>
+      <data key="d5">0</data>
+      <data key="d6">1.0</data>
+    </edge>
+    <edge source="loan" target="account">
+      <data key="d3">account_id-&gt;account_id</data>
+      <data key="d4">account_id-&gt;account_id</data>
+      <data key="d5">0</data>
+      <data key="d6">1.0</data>
+    </edge>
+    <edge source="order" target="account">
+      <data key="d3">account_id-&gt;account_id</data>
+      <data key="d4">account_id-&gt;account_id</data>
+      <data key="d5">0</data>
+      <data key="d6">1.0</data>
+    </edge>
+    <edge source="trans" target="account">
+      <data key="d3">account_id-&gt;account_id</data>
+      <data key="d4">account_id-&gt;account_id</data>
+      <data key="d5">0</data>
+      <data key="d6">1.0</data>
+    </edge>
+  </graph>
+</graphml>

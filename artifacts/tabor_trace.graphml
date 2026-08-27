@@ -1,0 +1,927 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="d17" for="edge" attr.name="weight" attr.type="double" />
+  <key id="d16" for="node" attr.name="District" attr.type="boolean" />
+  <key id="d15" for="node" attr.name="avg_salary" attr.type="long" />
+  <key id="d14" for="node" attr.name="region" attr.type="string" />
+  <key id="d13" for="node" attr.name="name" attr.type="string" />
+  <key id="d12" for="node" attr.name="district_id" attr.type="long" />
+  <key id="d11" for="node" attr.name="Account" attr.type="boolean" />
+  <key id="d10" for="node" attr.name="frequency" attr.type="string" />
+  <key id="d9" for="node" attr.name="account_id" attr.type="long" />
+  <key id="d8" for="node" attr.name="Trans" attr.type="boolean" />
+  <key id="d7" for="node" attr.name="balance" attr.type="double" />
+  <key id="d6" for="node" attr.name="amount" attr.type="double" />
+  <key id="d5" for="node" attr.name="operation" attr.type="string" />
+  <key id="d4" for="node" attr.name="type" attr.type="string" />
+  <key id="d3" for="node" attr.name="date" attr.type="long" />
+  <key id="d2" for="node" attr.name="trans_id" attr.type="long" />
+  <key id="d1" for="node" attr.name="node_type" attr.type="string" />
+  <key id="d0" for="node" attr.name="label" attr.type="string" />
+  <graph edgedefault="directed">
+    <node id="Trans_1108847">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">1108847</data>
+      <data key="d3">980226</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">15700.0</data>
+      <data key="d7">-2766.9</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Account_3786">
+      <data key="d0">Account 3786</data>
+      <data key="d1">Account</data>
+      <data key="d3">930622</data>
+      <data key="d9">3786</data>
+      <data key="d10">POPLATEK MESICNE</data>
+      <data key="d11">True</data>
+    </node>
+    <node id="District_21">
+      <data key="d0">District Tabor</data>
+      <data key="d1">District</data>
+      <data key="d12">21</data>
+      <data key="d13">Tabor</data>
+      <data key="d14">south Bohemia</data>
+      <data key="d15">9104</data>
+      <data key="d16">True</data>
+    </node>
+    <node id="Trans_3449624">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">3449624</data>
+      <data key="d3">980228</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">4.2</data>
+      <data key="d7">-2722.2</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_3449623">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">3449623</data>
+      <data key="d3">980228</data>
+      <data key="d4">PRIJEM</data>
+      <data key="d5" />
+      <data key="d6">49.0</data>
+      <data key="d7">-2718.0</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_990081">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">990081</data>
+      <data key="d3">961031</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">14.6</data>
+      <data key="d7">-6036.8</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Account_3374">
+      <data key="d0">Account 3374</data>
+      <data key="d1">Account</data>
+      <data key="d3">930217</data>
+      <data key="d9">3374</data>
+      <data key="d10">POPLATEK MESICNE</data>
+      <data key="d11">True</data>
+    </node>
+    <node id="Trans_4671">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">4671</data>
+      <data key="d3">980902</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">15900.0</data>
+      <data key="d7">-874.4</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Account_19">
+      <data key="d0">Account 19</data>
+      <data key="d1">Account</data>
+      <data key="d3">950407</data>
+      <data key="d9">19</data>
+      <data key="d10">POPLATEK MESICNE</data>
+      <data key="d11">True</data>
+    </node>
+    <node id="Trans_4623">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">4623</data>
+      <data key="d3">980906</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">2400.0</data>
+      <data key="d7">-3274.4</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_2247102">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">2247102</data>
+      <data key="d3">980604</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">12500.0</data>
+      <data key="d7">-6465.3</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Account_7418">
+      <data key="d0">Account 7418</data>
+      <data key="d1">Account</data>
+      <data key="d3">950407</data>
+      <data key="d9">7418</data>
+      <data key="d10">POPLATEK MESICNE</data>
+      <data key="d11">True</data>
+    </node>
+    <node id="Trans_4669">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">4669</data>
+      <data key="d3">980704</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">12300.0</data>
+      <data key="d7">-3560.0</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_3449133">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">3449133</data>
+      <data key="d3">950930</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">29.2</data>
+      <data key="d7">-2714.2</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_990068">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">990068</data>
+      <data key="d3">950930</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">14.6</data>
+      <data key="d7">-2685.0</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_1108650">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">1108650</data>
+      <data key="d3">950107</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">3600.0</data>
+      <data key="d7">-1497.1</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_989889">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">989889</data>
+      <data key="d3">950215</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">9500.0</data>
+      <data key="d7">-3973.5</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_989892">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">989892</data>
+      <data key="d3">950428</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">7100.0</data>
+      <data key="d7">-1338.3</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_3449123">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">3449123</data>
+      <data key="d3">950430</data>
+      <data key="d4">PRIJEM</data>
+      <data key="d5" />
+      <data key="d6">36.5</data>
+      <data key="d7">-1301.8</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_3449124">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">3449124</data>
+      <data key="d3">950430</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">1.6</data>
+      <data key="d7">-1318.0</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_990063">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">990063</data>
+      <data key="d3">950430</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">14.6</data>
+      <data key="d7">-1316.4</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_989820">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">989820</data>
+      <data key="d3">950506</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">4900.0</data>
+      <data key="d7">-6218.0</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_990091">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">990091</data>
+      <data key="d3">970831</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">14.6</data>
+      <data key="d7">-4229.4</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_990074">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">990074</data>
+      <data key="d3">960331</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">14.6</data>
+      <data key="d7">-2950.7</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_3449148">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">3449148</data>
+      <data key="d3">961130</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">62.5</data>
+      <data key="d7">-6099.3</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_3449149">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">3449149</data>
+      <data key="d3">961130</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">60.5</data>
+      <data key="d7">-6159.8</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_990082">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">990082</data>
+      <data key="d3">961130</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">14.6</data>
+      <data key="d7">-6174.4</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_187738">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">187738</data>
+      <data key="d3">961208</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">PREVOD NA UCET</data>
+      <data key="d6">2160.0</data>
+      <data key="d7">-430.3</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Account_635">
+      <data key="d0">Account 635</data>
+      <data key="d1">Account</data>
+      <data key="d3">940821</data>
+      <data key="d9">635</data>
+      <data key="d10">POPLATEK MESICNE</data>
+      <data key="d11">True</data>
+    </node>
+    <node id="Trans_3551530">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">3551530</data>
+      <data key="d3">961231</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">0.2</data>
+      <data key="d7">-439.2</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_3551529">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">3551529</data>
+      <data key="d3">961231</data>
+      <data key="d4">PRIJEM</data>
+      <data key="d5" />
+      <data key="d6">5.9</data>
+      <data key="d7">-424.4</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_4656">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">4656</data>
+      <data key="d3">970601</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">18500.0</data>
+      <data key="d7">-10604.7</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_989917">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">989917</data>
+      <data key="d3">970608</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">6400.0</data>
+      <data key="d7">-4122.3</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_3449162">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">3449162</data>
+      <data key="d3">970630</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">30.7</data>
+      <data key="d7">-4160.1</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_3449161">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">3449161</data>
+      <data key="d3">970630</data>
+      <data key="d4">PRIJEM</data>
+      <data key="d5" />
+      <data key="d6">7.5</data>
+      <data key="d7">-4114.8</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_990089">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">990089</data>
+      <data key="d3">970630</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">14.6</data>
+      <data key="d7">-4129.4</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_2247092">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">2247092</data>
+      <data key="d3">970730</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">13300.0</data>
+      <data key="d7">-8824.3</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_3682495">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">3682495</data>
+      <data key="d3">970731</data>
+      <data key="d4">PRIJEM</data>
+      <data key="d5" />
+      <data key="d6">15.7</data>
+      <data key="d7">-8807.8</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_3682496">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">3682496</data>
+      <data key="d3">970731</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">7.2</data>
+      <data key="d7">-8789.9</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_3454516">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">3454516</data>
+      <data key="d3">970731</data>
+      <data key="d4">PRIJEM</data>
+      <data key="d5" />
+      <data key="d6">52.2</data>
+      <data key="d7">-8755.6</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_3454517">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">3454517</data>
+      <data key="d3">970731</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">8.3</data>
+      <data key="d7">-8768.1</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_3449163">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">3449163</data>
+      <data key="d3">970731</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">40.1</data>
+      <data key="d7">-4200.2</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_990090">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">990090</data>
+      <data key="d3">970731</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">14.6</data>
+      <data key="d7">-4214.8</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_2247227">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">2247227</data>
+      <data key="d3">970731</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">14.6</data>
+      <data key="d7">-8782.7</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_3488164">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">3488164</data>
+      <data key="d3">970731</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">4.2</data>
+      <data key="d7">-8759.8</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_3449140">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">3449140</data>
+      <data key="d3">960430</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">29.2</data>
+      <data key="d7">-3024.7</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_3449139">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">3449139</data>
+      <data key="d3">960430</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">30.2</data>
+      <data key="d7">-2980.9</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_990075">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">990075</data>
+      <data key="d3">960430</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">14.6</data>
+      <data key="d7">-2995.5</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_990076">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">990076</data>
+      <data key="d3">960531</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">14.6</data>
+      <data key="d7">-3039.3</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_187732">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">187732</data>
+      <data key="d3">960608</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">PREVOD NA UCET</data>
+      <data key="d6">2160.0</data>
+      <data key="d7">-1565.8</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_3551522">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">3551522</data>
+      <data key="d3">960630</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">0.6</data>
+      <data key="d7">-1564.5</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_3551521">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">3551521</data>
+      <data key="d3">960630</data>
+      <data key="d4">PRIJEM</data>
+      <data key="d5" />
+      <data key="d6">1.9</data>
+      <data key="d7">-1563.9</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_3449141">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">3449141</data>
+      <data key="d3">960630</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">30.2</data>
+      <data key="d7">-3069.5</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_3449142">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">3449142</data>
+      <data key="d3">960630</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">29.2</data>
+      <data key="d7">-3098.7</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_990077">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">990077</data>
+      <data key="d3">960630</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">14.6</data>
+      <data key="d7">-3113.3</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_187946">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">187946</data>
+      <data key="d3">960630</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">14.6</data>
+      <data key="d7">-1579.1</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_3551523">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">3551523</data>
+      <data key="d3">960731</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">17.3</data>
+      <data key="d7">-1611.0</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_3449143">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">3449143</data>
+      <data key="d3">960731</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">29.2</data>
+      <data key="d7">-3142.5</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_990078">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">990078</data>
+      <data key="d3">960731</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">14.6</data>
+      <data key="d7">-3157.1</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_187947">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">187947</data>
+      <data key="d3">960731</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">14.6</data>
+      <data key="d7">-1593.7</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_187948">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">187948</data>
+      <data key="d3">960831</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">14.6</data>
+      <data key="d7">-1625.6</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_989908">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">989908</data>
+      <data key="d3">960904</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">8400.0</data>
+      <data key="d7">-75.8</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_989836">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">989836</data>
+      <data key="d3">960910</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">5900.0</data>
+      <data key="d7">-5975.8</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_3449146">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">3449146</data>
+      <data key="d3">960930</data>
+      <data key="d4">PRIJEM</data>
+      <data key="d5" />
+      <data key="d6">10.4</data>
+      <data key="d7">-5965.4</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_3449147">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">3449147</data>
+      <data key="d3">960930</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">42.1</data>
+      <data key="d7">-6007.6</data>
+      <data key="d8">True</data>
+    </node>
+    <node id="Trans_990080">
+      <data key="d0">​</data>
+      <data key="d1">Trans</data>
+      <data key="d2">990080</data>
+      <data key="d3">960930</data>
+      <data key="d4">VYDAJ</data>
+      <data key="d5">VYBER</data>
+      <data key="d6">14.6</data>
+      <data key="d7">-6022.2</data>
+      <data key="d8">True</data>
+    </node>
+    <edge source="Trans_1108847" target="Account_3786">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Account_3786" target="District_21">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_3449624" target="Account_3786">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_3449623" target="Account_3786">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_990081" target="Account_3374">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Account_3374" target="District_21">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_4671" target="Account_19">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Account_19" target="District_21">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_4623" target="Account_19">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_2247102" target="Account_7418">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Account_7418" target="District_21">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_4669" target="Account_19">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_3449133" target="Account_3374">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_990068" target="Account_3374">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_1108650" target="Account_3786">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_989889" target="Account_3374">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_989892" target="Account_3374">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_3449123" target="Account_3374">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_3449124" target="Account_3374">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_990063" target="Account_3374">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_989820" target="Account_3374">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_990091" target="Account_3374">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_990074" target="Account_3374">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_3449148" target="Account_3374">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_3449149" target="Account_3374">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_990082" target="Account_3374">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_187738" target="Account_635">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Account_635" target="District_21">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_3551530" target="Account_635">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_3551529" target="Account_635">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_4656" target="Account_19">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_989917" target="Account_3374">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_3449162" target="Account_3374">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_3449161" target="Account_3374">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_990089" target="Account_3374">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_2247092" target="Account_7418">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_3682495" target="Account_7418">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_3682496" target="Account_7418">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_3454516" target="Account_7418">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_3454517" target="Account_7418">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_3449163" target="Account_3374">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_990090" target="Account_3374">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_2247227" target="Account_7418">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_3488164" target="Account_7418">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_3449140" target="Account_3374">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_3449139" target="Account_3374">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_990075" target="Account_3374">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_990076" target="Account_3374">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_187732" target="Account_635">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_3551522" target="Account_635">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_3551521" target="Account_635">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_3449141" target="Account_3374">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_3449142" target="Account_3374">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_990077" target="Account_3374">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_187946" target="Account_635">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_3551523" target="Account_635">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_3449143" target="Account_3374">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_990078" target="Account_3374">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_187947" target="Account_635">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_187948" target="Account_635">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_989908" target="Account_3374">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_989836" target="Account_3374">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_3449146" target="Account_3374">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_3449147" target="Account_3374">
+      <data key="d17">1.0</data>
+    </edge>
+    <edge source="Trans_990080" target="Account_3374">
+      <data key="d17">1.0</data>
+    </edge>
+  </graph>
+</graphml>

@@ -1,0 +1,33 @@
+# Virtualenvs
+.venv/
+.venv-1/
+__pycache__/
+*.pyc
+
+# Neo4j container state — 256MB transaction logs, above GitHub's 100MB file
+# limit. The docker-compose.yml and the importer model are tracked; the
+# database the container builds from them is not.
+neo4j/data/
+neo4j/logs/
+neo4j/plugins/
+neo4j/import/
+
+# Kuzu embedded DB — 84MB, rebuilt by build_offline_lineage.py
+artifacts/lineage_db
+artifacts/lineage_db.wal
+artifacts/lineage_db.tmp/
+
+# Raw Berka CSVs — 67MB, trans.csv alone is 66MB. Public dataset; fetch it
+# rather than vendor it. If your teammate needs a copy, share it out of band.
+data/raw/
+
+# Anomaly outputs ARE tracked (439KB / 135KB / 6KB) so results can be
+# diffed and reviewed — see the negation rules below.
+!artifacts/anomaly_scores_trans.csv
+!artifacts/anomaly_scores_account.csv
+!artifacts/anomaly_by_district.csv
+
+# ...but not the full 73MB score dump from --all-scores.
+artifacts/anomaly_scores_trans_full.csv
+
+.DS_Store

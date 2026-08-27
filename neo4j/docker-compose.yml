@@ -1,0 +1,19 @@
+services:
+  neo4j:
+    image: neo4j:5-community
+    container_name: capstone-neo4j
+    ports:
+      - "7474:7474"   # Browser UI
+      - "7687:7687"   # Bolt
+    environment:
+      - NEO4J_AUTH=neo4j/capstone123
+      - NEO4J_server_memory_pagecache_size=512M
+      - NEO4J_server_memory_heap_max__size=1G
+    volumes:
+      - ./data:/data
+      - ./import:/var/lib/neo4j/import   # the 8 CSVs live here
+    healthcheck:
+      test: ["CMD", "wget", "-O", "/dev/null", "-q", "http://localhost:7474"]
+      interval: 10s
+      timeout: 5s
+      retries: 10

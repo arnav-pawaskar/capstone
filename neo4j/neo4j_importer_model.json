@@ -1,0 +1,1957 @@
+{
+  "version": "3.0.0",
+  "visualisation": {
+    "nodes": [
+      {
+        "id": "n:0",
+        "position": {
+          "x": -70.97438862011865,
+          "y": 220.02886778621334
+        }
+      },
+      {
+        "id": "n:1",
+        "position": {
+          "x": -95.78858357442482,
+          "y": -186.42540470576336
+        }
+      },
+      {
+        "id": "n:2",
+        "position": {
+          "x": 223.9409251259832,
+          "y": 74.30022232048321
+        }
+      },
+      {
+        "id": "n:3",
+        "position": {
+          "x": -187.06884637103724,
+          "y": 97.4550179393012
+        }
+      },
+      {
+        "id": "n:4",
+        "position": {
+          "x": 181.31838351684473,
+          "y": -92.85035283398605
+        }
+      },
+      {
+        "id": "n:5",
+        "position": {
+          "x": 92.12731207750011,
+          "y": 176.70786096402244
+        }
+      },
+      {
+        "id": "n:6",
+        "position": {
+          "x": -214.89041387725143,
+          "y": -70.46152667844052
+        }
+      },
+      {
+        "id": "n:7",
+        "position": {
+          "x": 68.22245447330359,
+          "y": -220.33392500183305
+        }
+      }
+    ]
+  },
+  "dataModel": {
+    "version": "3.0.0",
+    "graphSchemaRepresentation": {
+      "version": "1.0.0",
+      "graphSchema": {
+        "nodeLabels": [
+          {
+            "$id": "nl:0",
+            "token": "account.csv",
+            "properties": [
+              {
+                "$id": "n:0:account_id",
+                "token": "account_id",
+                "type": {
+                  "type": "integer"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:0:date",
+                "token": "date",
+                "type": {
+                  "type": "integer"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:0:district_id",
+                "token": "district_id",
+                "type": {
+                  "type": "integer"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:0:frequency",
+                "token": "frequency",
+                "type": {
+                  "type": "string"
+                },
+                "nullable": true
+              }
+            ]
+          },
+          {
+            "$id": "nl:1",
+            "token": "card.csv",
+            "properties": [
+              {
+                "$id": "n:1:card_id",
+                "token": "card_id",
+                "type": {
+                  "type": "integer"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:1:disp_id",
+                "token": "disp_id",
+                "type": {
+                  "type": "integer"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:1:issued",
+                "token": "issued",
+                "type": {
+                  "type": "string"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:1:type",
+                "token": "type",
+                "type": {
+                  "type": "string"
+                },
+                "nullable": true
+              }
+            ]
+          },
+          {
+            "$id": "nl:2",
+            "token": "client.csv",
+            "properties": [
+              {
+                "$id": "n:2:birth_number",
+                "token": "birth_number",
+                "type": {
+                  "type": "integer"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:2:client_id",
+                "token": "client_id",
+                "type": {
+                  "type": "integer"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:2:district_id",
+                "token": "district_id",
+                "type": {
+                  "type": "integer"
+                },
+                "nullable": true
+              }
+            ]
+          },
+          {
+            "$id": "nl:3",
+            "token": "disp.csv",
+            "properties": [
+              {
+                "$id": "n:3:account_id",
+                "token": "account_id",
+                "type": {
+                  "type": "integer"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:3:client_id",
+                "token": "client_id",
+                "type": {
+                  "type": "integer"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:3:disp_id",
+                "token": "disp_id",
+                "type": {
+                  "type": "integer"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:3:type",
+                "token": "type",
+                "type": {
+                  "type": "string"
+                },
+                "nullable": true
+              }
+            ]
+          },
+          {
+            "$id": "nl:4",
+            "token": "district.csv",
+            "properties": [
+              {
+                "$id": "n:4:A1",
+                "token": "A1",
+                "type": {
+                  "type": "integer"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:4:A10",
+                "token": "A10",
+                "type": {
+                  "type": "float"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:4:A11",
+                "token": "A11",
+                "type": {
+                  "type": "integer"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:4:A12",
+                "token": "A12",
+                "type": {
+                  "type": "string"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:4:A13",
+                "token": "A13",
+                "type": {
+                  "type": "float"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:4:A14",
+                "token": "A14",
+                "type": {
+                  "type": "integer"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:4:A15",
+                "token": "A15",
+                "type": {
+                  "type": "string"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:4:A16",
+                "token": "A16",
+                "type": {
+                  "type": "integer"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:4:A2",
+                "token": "A2",
+                "type": {
+                  "type": "string"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:4:A3",
+                "token": "A3",
+                "type": {
+                  "type": "string"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:4:A4",
+                "token": "A4",
+                "type": {
+                  "type": "integer"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:4:A5",
+                "token": "A5",
+                "type": {
+                  "type": "integer"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:4:A6",
+                "token": "A6",
+                "type": {
+                  "type": "integer"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:4:A7",
+                "token": "A7",
+                "type": {
+                  "type": "integer"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:4:A8",
+                "token": "A8",
+                "type": {
+                  "type": "integer"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:4:A9",
+                "token": "A9",
+                "type": {
+                  "type": "integer"
+                },
+                "nullable": true
+              }
+            ]
+          },
+          {
+            "$id": "nl:5",
+            "token": "loan.csv",
+            "properties": [
+              {
+                "$id": "n:5:account_id",
+                "token": "account_id",
+                "type": {
+                  "type": "integer"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:5:amount",
+                "token": "amount",
+                "type": {
+                  "type": "integer"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:5:date",
+                "token": "date",
+                "type": {
+                  "type": "integer"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:5:duration",
+                "token": "duration",
+                "type": {
+                  "type": "integer"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:5:loan_id",
+                "token": "loan_id",
+                "type": {
+                  "type": "integer"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:5:payments",
+                "token": "payments",
+                "type": {
+                  "type": "float"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:5:status",
+                "token": "status",
+                "type": {
+                  "type": "string"
+                },
+                "nullable": true
+              }
+            ]
+          },
+          {
+            "$id": "nl:6",
+            "token": "order.csv",
+            "properties": [
+              {
+                "$id": "n:6:account_id",
+                "token": "account_id",
+                "type": {
+                  "type": "integer"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:6:account_to",
+                "token": "account_to",
+                "type": {
+                  "type": "integer"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:6:amount",
+                "token": "amount",
+                "type": {
+                  "type": "float"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:6:bank_to",
+                "token": "bank_to",
+                "type": {
+                  "type": "string"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:6:k_symbol",
+                "token": "k_symbol",
+                "type": {
+                  "type": "string"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:6:order_id",
+                "token": "order_id",
+                "type": {
+                  "type": "integer"
+                },
+                "nullable": true
+              }
+            ]
+          },
+          {
+            "$id": "nl:7",
+            "token": "trans.csv",
+            "properties": [
+              {
+                "$id": "n:7:account",
+                "token": "account",
+                "type": {
+                  "type": "integer"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:7:account_id",
+                "token": "account_id",
+                "type": {
+                  "type": "integer"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:7:amount",
+                "token": "amount",
+                "type": {
+                  "type": "float"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:7:balance",
+                "token": "balance",
+                "type": {
+                  "type": "float"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:7:bank",
+                "token": "bank",
+                "type": {
+                  "type": "string"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:7:date",
+                "token": "date",
+                "type": {
+                  "type": "integer"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:7:k_symbol",
+                "token": "k_symbol",
+                "type": {
+                  "type": "string"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:7:operation",
+                "token": "operation",
+                "type": {
+                  "type": "string"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:7:trans_id",
+                "token": "trans_id",
+                "type": {
+                  "type": "integer"
+                },
+                "nullable": true
+              },
+              {
+                "$id": "n:7:type",
+                "token": "type",
+                "type": {
+                  "type": "string"
+                },
+                "nullable": true
+              }
+            ]
+          }
+        ],
+        "relationshipTypes": [
+          {
+            "$id": "rt:1",
+            "token": "REFERENCES",
+            "properties": []
+          },
+          {
+            "$id": "rt:3",
+            "token": "REFERENCES",
+            "properties": []
+          },
+          {
+            "$id": "rt:4",
+            "token": "REFERENCES",
+            "properties": []
+          },
+          {
+            "$id": "rt:5",
+            "token": "REFERENCES",
+            "properties": []
+          },
+          {
+            "$id": "rt:6",
+            "token": "REFERENCES",
+            "properties": []
+          },
+          {
+            "$id": "rt:2",
+            "token": "REFERENCES",
+            "properties": []
+          },
+          {
+            "$id": "rt:7",
+            "token": "REFERENCES",
+            "properties": []
+          },
+          {
+            "$id": "rt:8",
+            "token": "REFERENCES",
+            "properties": []
+          }
+        ],
+        "nodeObjectTypes": [
+          {
+            "$id": "n:0",
+            "labels": [
+              {
+                "$ref": "#nl:0"
+              }
+            ]
+          },
+          {
+            "$id": "n:1",
+            "labels": [
+              {
+                "$ref": "#nl:1"
+              }
+            ]
+          },
+          {
+            "$id": "n:2",
+            "labels": [
+              {
+                "$ref": "#nl:2"
+              }
+            ]
+          },
+          {
+            "$id": "n:3",
+            "labels": [
+              {
+                "$ref": "#nl:3"
+              }
+            ]
+          },
+          {
+            "$id": "n:4",
+            "labels": [
+              {
+                "$ref": "#nl:4"
+              }
+            ]
+          },
+          {
+            "$id": "n:5",
+            "labels": [
+              {
+                "$ref": "#nl:5"
+              }
+            ]
+          },
+          {
+            "$id": "n:6",
+            "labels": [
+              {
+                "$ref": "#nl:6"
+              }
+            ]
+          },
+          {
+            "$id": "n:7",
+            "labels": [
+              {
+                "$ref": "#nl:7"
+              }
+            ]
+          }
+        ],
+        "relationshipObjectTypes": [
+          {
+            "$id": "r:1",
+            "type": {
+              "$ref": "#rt:1"
+            },
+            "from": {
+              "$ref": "#n:6"
+            },
+            "to": {
+              "$ref": "#n:0"
+            }
+          },
+          {
+            "$id": "r:3",
+            "type": {
+              "$ref": "#rt:3"
+            },
+            "from": {
+              "$ref": "#n:3"
+            },
+            "to": {
+              "$ref": "#n:0"
+            }
+          },
+          {
+            "$id": "r:4",
+            "type": {
+              "$ref": "#rt:4"
+            },
+            "from": {
+              "$ref": "#n:1"
+            },
+            "to": {
+              "$ref": "#n:3"
+            }
+          },
+          {
+            "$id": "r:5",
+            "type": {
+              "$ref": "#rt:5"
+            },
+            "from": {
+              "$ref": "#n:2"
+            },
+            "to": {
+              "$ref": "#n:4"
+            }
+          },
+          {
+            "$id": "r:6",
+            "type": {
+              "$ref": "#rt:6"
+            },
+            "from": {
+              "$ref": "#n:0"
+            },
+            "to": {
+              "$ref": "#n:4"
+            }
+          },
+          {
+            "$id": "r:2",
+            "type": {
+              "$ref": "#rt:2"
+            },
+            "from": {
+              "$ref": "#n:5"
+            },
+            "to": {
+              "$ref": "#n:0"
+            }
+          },
+          {
+            "$id": "r:7",
+            "type": {
+              "$ref": "#rt:7"
+            },
+            "from": {
+              "$ref": "#n:3"
+            },
+            "to": {
+              "$ref": "#n:2"
+            }
+          },
+          {
+            "$id": "r:8",
+            "type": {
+              "$ref": "#rt:8"
+            },
+            "from": {
+              "$ref": "#n:7"
+            },
+            "to": {
+              "$ref": "#n:0"
+            }
+          }
+        ],
+        "constraints": [
+          {
+            "$id": "c:5",
+            "name": "account_id_disp_id_client_id_disp.csv_key",
+            "constraintType": "key",
+            "entityType": "node",
+            "nodeLabel": {
+              "$ref": "#nl:3"
+            },
+            "properties": [
+              {
+                "$ref": "#n:3:account_id"
+              },
+              {
+                "$ref": "#n:3:disp_id"
+              },
+              {
+                "$ref": "#n:3:client_id"
+              }
+            ]
+          },
+          {
+            "$id": "c:8",
+            "name": "district_id_client_id_client.csv_key",
+            "constraintType": "key",
+            "entityType": "node",
+            "nodeLabel": {
+              "$ref": "#nl:2"
+            },
+            "properties": [
+              {
+                "$ref": "#n:2:district_id"
+              },
+              {
+                "$ref": "#n:2:client_id"
+              }
+            ]
+          },
+          {
+            "$id": "c:2",
+            "name": "account_id_district_id_account.csv_key",
+            "constraintType": "key",
+            "entityType": "node",
+            "nodeLabel": {
+              "$ref": "#nl:0"
+            },
+            "properties": [
+              {
+                "$ref": "#n:0:account_id"
+              },
+              {
+                "$ref": "#n:0:district_id"
+              }
+            ]
+          },
+          {
+            "$id": "c:7",
+            "name": "A1_district.csv_key",
+            "constraintType": "key",
+            "entityType": "node",
+            "nodeLabel": {
+              "$ref": "#nl:4"
+            },
+            "properties": [
+              {
+                "$ref": "#n:4:A1"
+              }
+            ]
+          },
+          {
+            "$id": "c:6",
+            "name": "card_id_disp_id_card.csv_key",
+            "constraintType": "key",
+            "entityType": "node",
+            "nodeLabel": {
+              "$ref": "#nl:1"
+            },
+            "properties": [
+              {
+                "$ref": "#n:1:card_id"
+              },
+              {
+                "$ref": "#n:1:disp_id"
+              }
+            ]
+          },
+          {
+            "$id": "c:3",
+            "name": "trans_id_account_id_trans.csv_key",
+            "constraintType": "key",
+            "entityType": "node",
+            "nodeLabel": {
+              "$ref": "#nl:7"
+            },
+            "properties": [
+              {
+                "$ref": "#n:7:trans_id"
+              },
+              {
+                "$ref": "#n:7:account_id"
+              }
+            ]
+          },
+          {
+            "$id": "c:4",
+            "name": "loan_id_account_id_loan.csv_key",
+            "constraintType": "key",
+            "entityType": "node",
+            "nodeLabel": {
+              "$ref": "#nl:5"
+            },
+            "properties": [
+              {
+                "$ref": "#n:5:loan_id"
+              },
+              {
+                "$ref": "#n:5:account_id"
+              }
+            ]
+          },
+          {
+            "$id": "c:1",
+            "name": "order_id_account_id_order.csv_key",
+            "constraintType": "key",
+            "entityType": "node",
+            "nodeLabel": {
+              "$ref": "#nl:6"
+            },
+            "properties": [
+              {
+                "$ref": "#n:6:order_id"
+              },
+              {
+                "$ref": "#n:6:account_id"
+              }
+            ]
+          }
+        ],
+        "indexes": []
+      }
+    },
+    "graphSchemaExtensionsRepresentation": {
+      "nodeKeyProperties": [
+        {
+          "node": {
+            "$ref": "#n:6"
+          },
+          "keyProperties": [
+            {
+              "$ref": "#n:6:order_id"
+            },
+            {
+              "$ref": "#n:6:account_id"
+            }
+          ]
+        },
+        {
+          "node": {
+            "$ref": "#n:5"
+          },
+          "keyProperties": [
+            {
+              "$ref": "#n:5:loan_id"
+            },
+            {
+              "$ref": "#n:5:account_id"
+            }
+          ]
+        },
+        {
+          "node": {
+            "$ref": "#n:7"
+          },
+          "keyProperties": [
+            {
+              "$ref": "#n:7:trans_id"
+            },
+            {
+              "$ref": "#n:7:account_id"
+            }
+          ]
+        },
+        {
+          "node": {
+            "$ref": "#n:1"
+          },
+          "keyProperties": [
+            {
+              "$ref": "#n:1:card_id"
+            },
+            {
+              "$ref": "#n:1:disp_id"
+            }
+          ]
+        },
+        {
+          "node": {
+            "$ref": "#n:4"
+          },
+          "keyProperties": [
+            {
+              "$ref": "#n:4:A1"
+            }
+          ]
+        },
+        {
+          "node": {
+            "$ref": "#n:0"
+          },
+          "keyProperties": [
+            {
+              "$ref": "#n:0:account_id"
+            },
+            {
+              "$ref": "#n:0:district_id"
+            }
+          ]
+        },
+        {
+          "node": {
+            "$ref": "#n:2"
+          },
+          "keyProperties": [
+            {
+              "$ref": "#n:2:district_id"
+            },
+            {
+              "$ref": "#n:2:client_id"
+            }
+          ]
+        },
+        {
+          "node": {
+            "$ref": "#n:3"
+          },
+          "keyProperties": [
+            {
+              "$ref": "#n:3:account_id"
+            },
+            {
+              "$ref": "#n:3:disp_id"
+            },
+            {
+              "$ref": "#n:3:client_id"
+            }
+          ]
+        }
+      ],
+      "relationshipKeyProperties": []
+    },
+    "graphMappingRepresentation": {
+      "dataSourceSchema": {
+        "type": "local",
+        "tableSchemas": [
+          {
+            "name": "account.csv",
+            "primaryKeys": [],
+            "foreignKeys": [],
+            "expanded": true,
+            "fields": [
+              {
+                "name": "account_id",
+                "sample": "576",
+                "recommendedType": {
+                  "type": "integer"
+                }
+              },
+              {
+                "name": "district_id",
+                "sample": "55",
+                "recommendedType": {
+                  "type": "integer"
+                }
+              },
+              {
+                "name": "frequency",
+                "sample": "POPLATEK MESICNE",
+                "recommendedType": {
+                  "type": "string"
+                }
+              },
+              {
+                "name": "date",
+                "sample": "930101",
+                "recommendedType": {
+                  "type": "integer"
+                }
+              }
+            ]
+          },
+          {
+            "name": "card.csv",
+            "primaryKeys": [],
+            "foreignKeys": [],
+            "expanded": true,
+            "fields": [
+              {
+                "name": "card_id",
+                "sample": "1005",
+                "recommendedType": {
+                  "type": "integer"
+                }
+              },
+              {
+                "name": "disp_id",
+                "sample": "9285",
+                "recommendedType": {
+                  "type": "integer"
+                }
+              },
+              {
+                "name": "type",
+                "sample": "classic",
+                "recommendedType": {
+                  "type": "string"
+                }
+              },
+              {
+                "name": "issued",
+                "sample": "931107 00:00:00",
+                "recommendedType": {
+                  "type": "string"
+                }
+              }
+            ]
+          },
+          {
+            "name": "client.csv",
+            "primaryKeys": [],
+            "foreignKeys": [],
+            "expanded": true,
+            "fields": [
+              {
+                "name": "client_id",
+                "sample": "1",
+                "recommendedType": {
+                  "type": "integer"
+                }
+              },
+              {
+                "name": "birth_number",
+                "sample": "706213",
+                "recommendedType": {
+                  "type": "integer"
+                }
+              },
+              {
+                "name": "district_id",
+                "sample": "18",
+                "recommendedType": {
+                  "type": "integer"
+                }
+              }
+            ]
+          },
+          {
+            "name": "disp.csv",
+            "primaryKeys": [],
+            "foreignKeys": [],
+            "expanded": true,
+            "fields": [
+              {
+                "name": "disp_id",
+                "sample": "1",
+                "recommendedType": {
+                  "type": "integer"
+                }
+              },
+              {
+                "name": "client_id",
+                "sample": "1",
+                "recommendedType": {
+                  "type": "integer"
+                }
+              },
+              {
+                "name": "account_id",
+                "sample": "1",
+                "recommendedType": {
+                  "type": "integer"
+                }
+              },
+              {
+                "name": "type",
+                "sample": "OWNER",
+                "recommendedType": {
+                  "type": "string"
+                }
+              }
+            ]
+          },
+          {
+            "name": "district.csv",
+            "primaryKeys": [],
+            "foreignKeys": [],
+            "expanded": true,
+            "fields": [
+              {
+                "name": "A1",
+                "sample": "1",
+                "recommendedType": {
+                  "type": "integer"
+                }
+              },
+              {
+                "name": "A2",
+                "sample": "Hl.m. Praha",
+                "recommendedType": {
+                  "type": "string"
+                }
+              },
+              {
+                "name": "A3",
+                "sample": "Prague",
+                "recommendedType": {
+                  "type": "string"
+                }
+              },
+              {
+                "name": "A4",
+                "sample": "1204953",
+                "recommendedType": {
+                  "type": "integer"
+                }
+              },
+              {
+                "name": "A5",
+                "sample": "0",
+                "recommendedType": {
+                  "type": "integer"
+                }
+              },
+              {
+                "name": "A6",
+                "sample": "0",
+                "recommendedType": {
+                  "type": "integer"
+                }
+              },
+              {
+                "name": "A7",
+                "sample": "0",
+                "recommendedType": {
+                  "type": "integer"
+                }
+              },
+              {
+                "name": "A8",
+                "sample": "1",
+                "recommendedType": {
+                  "type": "integer"
+                }
+              },
+              {
+                "name": "A9",
+                "sample": "1",
+                "recommendedType": {
+                  "type": "integer"
+                }
+              },
+              {
+                "name": "A10",
+                "sample": "100.0",
+                "recommendedType": {
+                  "type": "float"
+                }
+              },
+              {
+                "name": "A11",
+                "sample": "12541",
+                "recommendedType": {
+                  "type": "integer"
+                }
+              },
+              {
+                "name": "A12",
+                "sample": "0.29",
+                "recommendedType": {
+                  "type": "string"
+                }
+              },
+              {
+                "name": "A13",
+                "sample": "0.43",
+                "recommendedType": {
+                  "type": "float"
+                }
+              },
+              {
+                "name": "A14",
+                "sample": "167",
+                "recommendedType": {
+                  "type": "integer"
+                }
+              },
+              {
+                "name": "A15",
+                "sample": "85677",
+                "recommendedType": {
+                  "type": "string"
+                }
+              },
+              {
+                "name": "A16",
+                "sample": "99107",
+                "recommendedType": {
+                  "type": "integer"
+                }
+              }
+            ]
+          },
+          {
+            "name": "loan.csv",
+            "primaryKeys": [],
+            "foreignKeys": [],
+            "expanded": true,
+            "fields": [
+              {
+                "name": "loan_id",
+                "sample": "5314",
+                "recommendedType": {
+                  "type": "integer"
+                }
+              },
+              {
+                "name": "account_id",
+                "sample": "1787",
+                "recommendedType": {
+                  "type": "integer"
+                }
+              },
+              {
+                "name": "date",
+                "sample": "930705",
+                "recommendedType": {
+                  "type": "integer"
+                }
+              },
+              {
+                "name": "amount",
+                "sample": "96396",
+                "recommendedType": {
+                  "type": "integer"
+                }
+              },
+              {
+                "name": "duration",
+                "sample": "12",
+                "recommendedType": {
+                  "type": "integer"
+                }
+              },
+              {
+                "name": "payments",
+                "sample": "8033.00",
+                "recommendedType": {
+                  "type": "float"
+                }
+              },
+              {
+                "name": "status",
+                "sample": "B",
+                "recommendedType": {
+                  "type": "string"
+                }
+              }
+            ]
+          },
+          {
+            "name": "order.csv",
+            "primaryKeys": [],
+            "foreignKeys": [],
+            "expanded": true,
+            "fields": [
+              {
+                "name": "order_id",
+                "sample": "29401",
+                "recommendedType": {
+                  "type": "integer"
+                }
+              },
+              {
+                "name": "account_id",
+                "sample": "1",
+                "recommendedType": {
+                  "type": "integer"
+                }
+              },
+              {
+                "name": "bank_to",
+                "sample": "YZ",
+                "recommendedType": {
+                  "type": "string"
+                }
+              },
+              {
+                "name": "account_to",
+                "sample": "87144583",
+                "recommendedType": {
+                  "type": "integer"
+                }
+              },
+              {
+                "name": "amount",
+                "sample": "2452.00",
+                "recommendedType": {
+                  "type": "float"
+                }
+              },
+              {
+                "name": "k_symbol",
+                "sample": "SIPO",
+                "recommendedType": {
+                  "type": "string"
+                }
+              }
+            ]
+          },
+          {
+            "name": "trans.csv",
+            "primaryKeys": [],
+            "foreignKeys": [],
+            "expanded": true,
+            "fields": [
+              {
+                "name": "trans_id",
+                "sample": "695247",
+                "recommendedType": {
+                  "type": "integer"
+                }
+              },
+              {
+                "name": "account_id",
+                "sample": "2378",
+                "recommendedType": {
+                  "type": "integer"
+                }
+              },
+              {
+                "name": "date",
+                "sample": "930101",
+                "recommendedType": {
+                  "type": "integer"
+                }
+              },
+              {
+                "name": "type",
+                "sample": "PRIJEM",
+                "recommendedType": {
+                  "type": "string"
+                }
+              },
+              {
+                "name": "operation",
+                "sample": "VKLAD",
+                "recommendedType": {
+                  "type": "string"
+                }
+              },
+              {
+                "name": "amount",
+                "sample": "700.00",
+                "recommendedType": {
+                  "type": "float"
+                }
+              },
+              {
+                "name": "balance",
+                "sample": "700.00",
+                "recommendedType": {
+                  "type": "float"
+                }
+              },
+              {
+                "name": "k_symbol",
+                "sample": "",
+                "recommendedType": {
+                  "type": "string"
+                }
+              },
+              {
+                "name": "bank",
+                "sample": "",
+                "recommendedType": {
+                  "type": "string"
+                }
+              },
+              {
+                "name": "account",
+                "sample": "",
+                "recommendedType": {
+                  "type": "integer"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "nodeMappings": [
+        {
+          "node": {
+            "$ref": "#n:0"
+          },
+          "tableName": "account.csv",
+          "propertyMappings": [
+            {
+              "fieldName": "account_id",
+              "property": {
+                "$ref": "#n:0:account_id"
+              }
+            },
+            {
+              "fieldName": "date",
+              "property": {
+                "$ref": "#n:0:date"
+              }
+            },
+            {
+              "fieldName": "district_id",
+              "property": {
+                "$ref": "#n:0:district_id"
+              }
+            },
+            {
+              "fieldName": "frequency",
+              "property": {
+                "$ref": "#n:0:frequency"
+              }
+            }
+          ]
+        },
+        {
+          "node": {
+            "$ref": "#n:1"
+          },
+          "tableName": "card.csv",
+          "propertyMappings": [
+            {
+              "fieldName": "card_id",
+              "property": {
+                "$ref": "#n:1:card_id"
+              }
+            },
+            {
+              "fieldName": "disp_id",
+              "property": {
+                "$ref": "#n:1:disp_id"
+              }
+            },
+            {
+              "fieldName": "issued",
+              "property": {
+                "$ref": "#n:1:issued"
+              }
+            },
+            {
+              "fieldName": "type",
+              "property": {
+                "$ref": "#n:1:type"
+              }
+            }
+          ]
+        },
+        {
+          "node": {
+            "$ref": "#n:2"
+          },
+          "tableName": "client.csv",
+          "propertyMappings": [
+            {
+              "fieldName": "birth_number",
+              "property": {
+                "$ref": "#n:2:birth_number"
+              }
+            },
+            {
+              "fieldName": "client_id",
+              "property": {
+                "$ref": "#n:2:client_id"
+              }
+            },
+            {
+              "fieldName": "district_id",
+              "property": {
+                "$ref": "#n:2:district_id"
+              }
+            }
+          ]
+        },
+        {
+          "node": {
+            "$ref": "#n:3"
+          },
+          "tableName": "disp.csv",
+          "propertyMappings": [
+            {
+              "fieldName": "account_id",
+              "property": {
+                "$ref": "#n:3:account_id"
+              }
+            },
+            {
+              "fieldName": "client_id",
+              "property": {
+                "$ref": "#n:3:client_id"
+              }
+            },
+            {
+              "fieldName": "disp_id",
+              "property": {
+                "$ref": "#n:3:disp_id"
+              }
+            },
+            {
+              "fieldName": "type",
+              "property": {
+                "$ref": "#n:3:type"
+              }
+            }
+          ]
+        },
+        {
+          "node": {
+            "$ref": "#n:4"
+          },
+          "tableName": "district.csv",
+          "propertyMappings": [
+            {
+              "fieldName": "A1",
+              "property": {
+                "$ref": "#n:4:A1"
+              }
+            },
+            {
+              "fieldName": "A10",
+              "property": {
+                "$ref": "#n:4:A10"
+              }
+            },
+            {
+              "fieldName": "A11",
+              "property": {
+                "$ref": "#n:4:A11"
+              }
+            },
+            {
+              "fieldName": "A12",
+              "property": {
+                "$ref": "#n:4:A12"
+              }
+            },
+            {
+              "fieldName": "A13",
+              "property": {
+                "$ref": "#n:4:A13"
+              }
+            },
+            {
+              "fieldName": "A14",
+              "property": {
+                "$ref": "#n:4:A14"
+              }
+            },
+            {
+              "fieldName": "A15",
+              "property": {
+                "$ref": "#n:4:A15"
+              }
+            },
+            {
+              "fieldName": "A16",
+              "property": {
+                "$ref": "#n:4:A16"
+              }
+            },
+            {
+              "fieldName": "A2",
+              "property": {
+                "$ref": "#n:4:A2"
+              }
+            },
+            {
+              "fieldName": "A3",
+              "property": {
+                "$ref": "#n:4:A3"
+              }
+            },
+            {
+              "fieldName": "A4",
+              "property": {
+                "$ref": "#n:4:A4"
+              }
+            },
+            {
+              "fieldName": "A5",
+              "property": {
+                "$ref": "#n:4:A5"
+              }
+            },
+            {
+              "fieldName": "A6",
+              "property": {
+                "$ref": "#n:4:A6"
+              }
+            },
+            {
+              "fieldName": "A7",
+              "property": {
+                "$ref": "#n:4:A7"
+              }
+            },
+            {
+              "fieldName": "A8",
+              "property": {
+                "$ref": "#n:4:A8"
+              }
+            },
+            {
+              "fieldName": "A9",
+              "property": {
+                "$ref": "#n:4:A9"
+              }
+            }
+          ]
+        },
+        {
+          "node": {
+            "$ref": "#n:5"
+          },
+          "tableName": "loan.csv",
+          "propertyMappings": [
+            {
+              "fieldName": "account_id",
+              "property": {
+                "$ref": "#n:5:account_id"
+              }
+            },
+            {
+              "fieldName": "amount",
+              "property": {
+                "$ref": "#n:5:amount"
+              }
+            },
+            {
+              "fieldName": "date",
+              "property": {
+                "$ref": "#n:5:date"
+              }
+            },
+            {
+              "fieldName": "duration",
+              "property": {
+                "$ref": "#n:5:duration"
+              }
+            },
+            {
+              "fieldName": "loan_id",
+              "property": {
+                "$ref": "#n:5:loan_id"
+              }
+            },
+            {
+              "fieldName": "payments",
+              "property": {
+                "$ref": "#n:5:payments"
+              }
+            },
+            {
+              "fieldName": "status",
+              "property": {
+                "$ref": "#n:5:status"
+              }
+            }
+          ]
+        },
+        {
+          "node": {
+            "$ref": "#n:6"
+          },
+          "tableName": "order.csv",
+          "propertyMappings": [
+            {
+              "fieldName": "account_id",
+              "property": {
+                "$ref": "#n:6:account_id"
+              }
+            },
+            {
+              "fieldName": "account_to",
+              "property": {
+                "$ref": "#n:6:account_to"
+              }
+            },
+            {
+              "fieldName": "amount",
+              "property": {
+                "$ref": "#n:6:amount"
+              }
+            },
+            {
+              "fieldName": "bank_to",
+              "property": {
+                "$ref": "#n:6:bank_to"
+              }
+            },
+            {
+              "fieldName": "k_symbol",
+              "property": {
+                "$ref": "#n:6:k_symbol"
+              }
+            },
+            {
+              "fieldName": "order_id",
+              "property": {
+                "$ref": "#n:6:order_id"
+              }
+            }
+          ]
+        },
+        {
+          "node": {
+            "$ref": "#n:7"
+          },
+          "tableName": "trans.csv",
+          "propertyMappings": [
+            {
+              "fieldName": "account",
+              "property": {
+                "$ref": "#n:7:account"
+              }
+            },
+            {
+              "fieldName": "account_id",
+              "property": {
+                "$ref": "#n:7:account_id"
+              }
+            },
+            {
+              "fieldName": "amount",
+              "property": {
+                "$ref": "#n:7:amount"
+              }
+            },
+            {
+              "fieldName": "balance",
+              "property": {
+                "$ref": "#n:7:balance"
+              }
+            },
+            {
+              "fieldName": "bank",
+              "property": {
+                "$ref": "#n:7:bank"
+              }
+            },
+            {
+              "fieldName": "date",
+              "property": {
+                "$ref": "#n:7:date"
+              }
+            },
+            {
+              "fieldName": "k_symbol",
+              "property": {
+                "$ref": "#n:7:k_symbol"
+              }
+            },
+            {
+              "fieldName": "operation",
+              "property": {
+                "$ref": "#n:7:operation"
+              }
+            },
+            {
+              "fieldName": "trans_id",
+              "property": {
+                "$ref": "#n:7:trans_id"
+              }
+            },
+            {
+              "fieldName": "type",
+              "property": {
+                "$ref": "#n:7:type"
+              }
+            }
+          ]
+        }
+      ],
+      "relationshipMappings": [
+        {
+          "relationship": {
+            "$ref": "#r:1"
+          },
+          "tableName": "account.csv",
+          "propertyMappings": [],
+          "fromMappings": {
+            "#n:6:account_id": "account_id"
+          },
+          "toMappings": {
+            "#n:0:account_id": "account_id"
+          }
+        },
+        {
+          "relationship": {
+            "$ref": "#r:3"
+          },
+          "tableName": "account.csv",
+          "propertyMappings": [],
+          "fromMappings": {
+            "#n:3:account_id": "account_id"
+          },
+          "toMappings": {
+            "#n:0:account_id": "account_id"
+          }
+        },
+        {
+          "relationship": {
+            "$ref": "#r:4"
+          },
+          "tableName": "disp.csv",
+          "propertyMappings": [],
+          "toMappings": {
+            "#n:3:disp_id": "disp_id"
+          },
+          "fromMappings": {
+            "#n:1:disp_id": "disp_id"
+          }
+        },
+        {
+          "relationship": {
+            "$ref": "#r:5"
+          },
+          "tableName": "district.csv",
+          "propertyMappings": [],
+          "fromMappings": {
+            "#n:2:district_id": "A1"
+          },
+          "toMappings": {
+            "#n:4:A1": "A1"
+          }
+        },
+        {
+          "relationship": {
+            "$ref": "#r:6"
+          },
+          "tableName": "district.csv",
+          "propertyMappings": [],
+          "fromMappings": {
+            "#n:0:district_id": "A1"
+          },
+          "toMappings": {
+            "#n:4:A1": "A1"
+          }
+        },
+        {
+          "relationship": {
+            "$ref": "#r:2"
+          },
+          "tableName": "account.csv",
+          "propertyMappings": [],
+          "fromMappings": {
+            "#n:5:account_id": "account_id"
+          },
+          "toMappings": {
+            "#n:0:account_id": "account_id"
+          }
+        },
+        {
+          "relationship": {
+            "$ref": "#r:7"
+          },
+          "tableName": "client.csv",
+          "propertyMappings": [],
+          "fromMappings": {
+            "#n:3:client_id": "client_id"
+          },
+          "toMappings": {
+            "#n:2:client_id": "client_id"
+          }
+        },
+        {
+          "relationship": {
+            "$ref": "#r:8"
+          },
+          "tableName": "account.csv",
+          "propertyMappings": [],
+          "fromMappings": {
+            "#n:7:account_id": "account_id"
+          },
+          "toMappings": {
+            "#n:0:account_id": "account_id"
+          }
+        }
+      ]
+    },
+    "configurations": {
+      "idsToIgnore": [],
+      "arrayDelimiter": "|",
+      "vectorDelimiter": "|"
+    }
+  }
+}

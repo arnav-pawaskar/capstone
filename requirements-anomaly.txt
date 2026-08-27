@@ -1,0 +1,25 @@
+# Dependencies for detect_anomalies.py only.
+# Deliberately minimal — no graph engine, no database, no plotting.
+#
+#   python -m venv .venv
+#   source .venv/bin/activate
+#   pip install -r requirements-anomaly.txt
+#   python detect_anomalies.py --raw ./data/raw --out ./artifacts
+#
+# FOLDER LAYOUT (see README.md for the full version)
+#
+#   data/raw/       <- you put the 8 semicolon-delimited CSVs here, unmodified:
+#                      account, card, client, disp, district, loan, order, trans
+#                      NOT in git (67MB); a fresh clone will not have them.
+#   artifacts/      <- created by the script; the 3 output CSVs land here.
+#
+# The other scripts in this repo (build_offline_lineage.py, export_to_gephi.py,
+# render_offline_graph.py) are a separate lineage-graph track and additionally
+# need kuzu / networkx / pyvis. This file does not cover them.
+#
+# Lower bounds, not pins: the script uses no version-specific APIs and runs on
+# pandas 2.x as well (developed against the 3.x versions noted alongside).
+
+pandas>=2.2          # developed against 3.0.5
+numpy>=1.26          # developed against 2.5.2
+scikit-learn>=1.3    # developed against 1.9.0
