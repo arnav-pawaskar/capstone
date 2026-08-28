@@ -24,6 +24,7 @@ Usage:
 """
 
 import argparse
+import json
 import os
 import time
 
@@ -39,6 +40,10 @@ DISTRICT_COLS = [
 ]
 
 TABLES = ["account", "card", "client", "disp", "district", "loan", "order", "trans"]
+
+# Accounts are 235x rarer than transactions, so the same contamination fraction
+# would flag only ~22 of them. The account model uses this multiple instead.
+ACCOUNT_MULTIPLIER = 4
 
 # Berka loan status: A finished/paid, B finished/unpaid, C running/ok, D running/debt.
 # B and D are the bank's own "this went wrong" marker.
@@ -140,10 +145,20 @@ def account_features(tables):
         "balance_min": grp["balance"].min(),
         "balance_max": grp["balance"].max(),
         "balance_std": grp["balance"].std().fillna(0.0),
-        "frac_negative_balance": grp["balance"].apply(lambda s: (s < 0).mean()),
-        "frac_credit": grp["type"].apply(lambda s: (s == "PRIJEM").mean()),
+        # Mean of a boolean, grouped — not .apply(lambda), which would run a
+        # Python-level loop over all 4,500 groups.
+        "frac_negative_balance": (trans["balance"] < 0).groupby(trans["account_id"]).mean(),
+        "frac_credit": (trans["type"] == "PRIJEM").groupby(trans["account_id"]).mean(),
         "span_days": (grp["dt"].max() - grp["dt"].min()).dt.days,
     })
+
+    # This frame is indexed by the accounts that actually appear in trans. An
+    # account with no transactions would be silently absent from the model
+    # rather than scored, so say so instead of quietly dropping it.
+    missing = len(tables["account"]) - len(f)
+    if missing:
+        print(f"  warning: {missing} account(s) have no transactions and are "
+              f"excluded from the account model")
     f["txn_per_day"] = f["n_txn"] / f["span_days"].clip(lower=1)
 
     # Product holdings — an account with 3 cards and no loan is a different
@@ -177,10 +192,131 @@ def run_isolation_forest(X, contamination, seed=42, label=""):
     # score_samples: higher = more normal. Negate so higher = more anomalous,
     # which is the direction every downstream query wants.
     score = -model.score_samples(X)
-    flag = model.predict(X) == -1
+    # `predict()` would re-traverse all 200 trees to recompute what we just
+    # scored — on the 1.06M table that doubles the dominant cost. predict() is
+    # defined as `score_samples < offset_`, so derive the flag from `score`
+    # directly. Verified identical to predict() on both models.
+    flag = score > -model.offset_
     print(f"  {label}: {len(X):,} rows x {X.shape[1]} features, "
           f"{flag.sum():,} flagged ({flag.mean():.2%}) in {time.time() - t0:.1f}s")
-    return score, flag
+    return model, score, flag
+
+
+# ----------------------------------------------------------------------------
+# Per-record feature attribution
+# ----------------------------------------------------------------------------
+# Isolation Forest has no `feature_importances_` and no per-instance
+# attribution: `score_samples` returns one scalar and nothing about why. So we
+# reconstruct it from the isolation paths themselves.
+#
+# The naive approach — credit whichever feature each split used, weighted by
+# depth — does not work here, and it is worth saying why. Isolation Forest picks
+# its split feature *uniformly at random*, independently of the data. So the set
+# of features appearing on a path is near-identical for anomalous and normal
+# rows, and ranking on it returns the same three features for every record.
+#
+# What carries the signal is not which feature split, but how much isolation
+# that split achieved. A split that drops the row from 256 candidate samples to
+# 3 did the isolating; one that goes 256 -> 128 did essentially nothing. So each
+# split is credited log(n_parent / n_child) along the path the row actually
+# took, summed over all 200 trees and normalised to a share.
+#
+# This is native to the model, not a proxy: it measures the isolation the forest
+# genuinely achieved per feature, rather than what merely looks unusual.
+
+# Engineered feature -> source CSV column. Several features derive from one
+# column (log_amount and amount_z both come from `amount`), so credit is
+# summed per source column before ranking.
+SOURCE_COLUMN = {
+    "log_amount": "amount", "amount_z": "amount",
+    "balance": "balance", "balance_delta": "balance", "balance_ratio": "balance",
+    "days_since_prev": "date", "day_of_month": "date", "month": "date",
+    "is_interbank": "bank",
+}
+
+
+def _to_source(name):
+    """Engineered feature -> source CSV column.
+
+    Transaction features map onto real columns of trans.csv. Account features
+    (`n_txn`, `amount_std`, ...) are aggregates with no single source column, so
+    they fall through unchanged. Consumers of the JSON `features` field will
+    therefore see column names for trans.csv records and aggregate names for
+    account.csv ones.
+    """
+    if name in SOURCE_COLUMN:
+        return SOURCE_COLUMN[name]
+    # one-hot columns are "<column>_<value>" from get_dummies
+    for prefix in ("type_", "operation_", "k_symbol_"):
+        if name.startswith(prefix):
+            return prefix[:-1]
+    return name
+
+
+def _credit_matrix(model, Xv, feat_to_col, n_cols):
+    """Isolation gain per source column, one row per sample."""
+    n = Xv.shape[0]
+    credit = np.zeros((n, n_cols))
+    for est, feat_idx in zip(model.estimators_, model.estimators_features_):
+        tree = est.tree_
+        path = est.decision_path(Xv[:, feat_idx])       # sparse (n, n_nodes)
+        nodes, indptr = path.indices, path.indptr
+        rows = np.repeat(np.arange(n), np.diff(indptr))
+
+        # Node ids increase monotonically along a root->leaf path (sklearn's
+        # depth-first builder always numbers a child after its parent), and csr
+        # indices come out sorted, so consecutive entries within a row are
+        # exactly parent -> the child that row took.
+        is_last = np.zeros(len(nodes), dtype=bool)
+        is_last[indptr[1:] - 1] = True
+        parent, child = nodes[~is_last], nodes[1:][~is_last[:-1]]
+        row_of = rows[~is_last]
+
+        ns = tree.n_node_samples
+        gain = np.log(np.maximum(ns[parent], 1) / np.maximum(ns[child], 1))
+        split_feat = tree.feature[parent]               # -2 at leaves
+        internal = split_feat >= 0
+        # tree.feature indexes into this estimator's feature subset, so map it
+        # back through estimators_features_ to the global feature index.
+        np.add.at(credit,
+                  (row_of[internal], feat_to_col[feat_idx[split_feat[internal]]]),
+                  gain[internal])
+
+    # Rows have different total path gain, so normalise each to a share.
+    total = credit.sum(axis=1, keepdims=True)
+    return np.divide(credit, total, out=np.zeros_like(credit), where=total > 0)
+
+
+def attribute_features(model, X_flagged, feature_names, top_n=3):
+    """Which source columns did the forest use to isolate each row?
+
+    Engineered features are collapsed onto their source CSV column first
+    (`log_amount` and `amount_z` both count toward `amount`), so the answer is
+    in terms of the dataset's own columns rather than model internals.
+    """
+    sources = [_to_source(f) for f in feature_names]
+    uniq = sorted(set(sources))
+    feat_to_col = np.array([{s: i for i, s in enumerate(uniq)}[s] for s in sources])
+
+    credit = _credit_matrix(model, np.asarray(X_flagged, dtype="float32"),
+                            feat_to_col, len(uniq))
+    order = np.argsort(-credit, axis=1)[:, :top_n]
+    return [[uniq[j] for j in row if credit[i, j] > 0]
+            for i, row in enumerate(order)]
+
+
+def normalize(score):
+    """Min-max to [0,1] across the full population, so a score reads as
+    'how anomalous relative to everything else', not an opaque float.
+
+    Min-max is sensitive to a single extreme value, which rank-percentile would
+    avoid. It is still the right choice here: percentile ranks compress the top
+    0.5% — the only rows that reach the output — into 0.995..1.0, which is
+    unreadable. Min-max keeps the flagged tail spread across ~0.7..1.0.
+    Normalisation is per-model, so scores are only comparable within a dataset.
+    """
+    lo, hi = score.min(), score.max()
+    return (score - lo) / (hi - lo) if hi > lo else np.zeros_like(score)
 
 
 # ----------------------------------------------------------------------------
@@ -262,6 +398,15 @@ def main():
                         "just the flagged ones")
     args = p.parse_args()
 
+    # sklearn caps contamination at 0.5, and the account model multiplies this
+    # value. Check before fitting: without it, an out-of-range value fails only
+    # after the 1.06M-row transaction model has already run, with an error that
+    # never mentions the multiplier.
+    max_contamination = 0.5 / ACCOUNT_MULTIPLIER
+    if not 0 < args.contamination <= max_contamination:
+        p.error(f"--contamination must be in (0, {max_contamination}]; the account "
+                f"model uses {ACCOUNT_MULTIPLIER}x it and sklearn caps that at 0.5")
+
     os.makedirs(args.out, exist_ok=True)
     tables = load_raw(args.raw)
 
@@ -269,24 +414,29 @@ def main():
 
     # --- transaction level ---
     t_keys, t_X = transaction_features(tables["trans"])
-    t_score, t_flag = run_isolation_forest(t_X, args.contamination, args.seed,
-                                           label="transaction")
+    t_model, t_score, t_flag = run_isolation_forest(t_X, args.contamination, args.seed,
+                                                    label="transaction")
     txn_out = t_keys.copy()
     txn_out["anomaly_score"] = t_score
+    txn_out["score_normalized"] = normalize(t_score)
     txn_out["is_anomaly"] = t_flag
     txn_out = txn_out.merge(
         tables["trans"][["trans_id", "date", "amount", "balance",
                          "type", "operation", "k_symbol"]],
         on="trans_id", how="left")
+    # Feature attribution indexes t_X and txn_out by the same positional mask,
+    # so the merge must not have reordered or duplicated rows. It cannot, given
+    # a unique trans_id — but a duplicate key would silently misattribute every
+    # record rather than fail, so assert it rather than assume it.
+    assert len(txn_out) == len(t_X), "merge changed row count; trans_id not unique"
 
     # --- account level ---
-    # Accounts are 235x rarer than transactions, so the same fraction would flag
-    # only ~22 of them. 4x gives a set big enough to say anything about.
     a_keys, a_X = account_features(tables)
-    a_score, a_flag = run_isolation_forest(a_X, args.contamination * 4, args.seed,
-                                           label="account    ")
+    a_model, a_score, a_flag = run_isolation_forest(
+        a_X, args.contamination * ACCOUNT_MULTIPLIER, args.seed, label="account    ")
     acct_out = a_keys.copy()
     acct_out["anomaly_score"] = a_score
+    acct_out["score_normalized"] = normalize(a_score)
     acct_out["is_anomaly"] = a_flag
 
     validate(txn_out, acct_out, tables)
@@ -305,10 +455,46 @@ def main():
     dist_csv = os.path.join(args.out, "anomaly_by_district.csv")
     roll.to_csv(dist_csv, index=False)
 
-    print(f"\n=== output ===")
-    for path in (txn_csv, acct_csv, dist_csv):
-        print(f"  {path}  ({os.path.getsize(path) / 1e3:.0f} KB, "
-              f"{sum(1 for _ in open(path)) - 1:,} rows)")
+    # --- JSON: one object per anomaly, with the features that isolated it ---
+    #
+    # Records are grouped by dataset, each block sorted most-anomalous-first.
+    # They are deliberately NOT sorted into one global ranking: `score` is
+    # min-maxed within its own dataset, so a transaction's 1.0 and an account's
+    # 1.0 are different quantities. Interleaving them would imply a comparison
+    # the numbers do not support.
+    records = []
+    for X, out, model, ds, key in [
+        (t_X, txn_out, t_model, "trans.csv", "trans_id"),
+        (a_X, acct_out, a_model, "account.csv", "account_id"),
+    ]:
+        mask = out["is_anomaly"].values
+        sub = out[mask].copy()
+        # Mask before converting: np.asarray() on the full frame would
+        # materialise a 220MB array to then keep 0.5% of it.
+        feats = attribute_features(model, X[mask].to_numpy(), list(X.columns))
+        sub["_features"] = feats
+        for _, r in sub.sort_values("anomaly_score", ascending=False).iterrows():
+            records.append({
+                "anomaly_id": f"ANOM-{len(records) + 1:05d}",
+                "dataset": ds,
+                "record_id": int(r[key]),
+                "score": round(float(r["score_normalized"]), 4),
+                "features": r["_features"],
+            })
+
+    json_path = os.path.join(args.out, "anomalies.json")
+    with open(json_path, "w") as fh:
+        json.dump(records, fh, indent=2)
+
+    print("\n=== output ===")
+    print(f"  {json_path}  ({os.path.getsize(json_path) / 1e3:.0f} KB, "
+          f"{len(records):,} anomalies)")
+    # Row counts come from the frames we just wrote. Counting lines in the file
+    # would miscount any field containing a newline, and would re-read the whole
+    # 73MB table under --all-scores just to print a number.
+    for path, n_rows in ((txn_csv, len(to_write)), (acct_csv, len(acct_out)),
+                         (dist_csv, len(roll))):
+        print(f"  {path}  ({os.path.getsize(path) / 1e3:.0f} KB, {n_rows:,} rows)")
     if not args.all_scores:
         print("  (transaction file holds flagged rows only; --all-scores for all 1.06M)")
 

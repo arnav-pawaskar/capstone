@@ -26,6 +26,7 @@ capstone/
 │       └── trans.csv
 │
 └── artifacts/                     <- created by the script; outputs land here
+    ├── anomalies.json
     ├── anomaly_scores_trans.csv
     ├── anomaly_scores_account.csv
     └── anomaly_by_district.csv
@@ -60,17 +61,41 @@ python detect_anomalies.py --raw /path/to/csvs
 
 ### Output: `artifacts/`
 
-Created automatically. All three files are small enough to commit and diff.
+Created automatically. All four files are small enough to commit and diff.
 
-| File | Size | Rows | Contents |
+| File | Size | Records | Contents |
 |---|---|---|---|
-| `anomaly_scores_trans.csv` | 439 KB | 5,282 | flagged transactions, most anomalous first |
-| `anomaly_scores_account.csv` | 135 KB | 4,500 | every account, scored |
+| `anomalies.json` | 1.0 MB | 5,372 | one object per anomaly, with the features that isolated it |
+| `anomaly_scores_trans.csv` | 539 KB | 5,282 | flagged transactions, most anomalous first |
+| `anomaly_scores_account.csv` | 223 KB | 4,500 | every account, scored |
 | `anomaly_by_district.csv` | 6 KB | 77 | per-district anomaly rate and lift |
 
 The transaction file holds **flagged rows only**. The full 1.06M-row score table
-is ~73 MB and is deliberately not written by default; use `--all-scores` if you
+is ~101 MB and is deliberately not written by default; use `--all-scores` if you
 need it for threshold tuning, and don't commit the result.
+
+### `anomalies.json`
+
+```json
+{
+  "anomaly_id": "ANOM-00001",
+  "dataset": "trans.csv",
+  "record_id": 753736,
+  "score": 1.0,
+  "features": ["date", "balance", "amount"]
+}
+```
+
+`score` is min-maxed **within its own dataset**, so a transaction's 1.0 and an
+account's 1.0 are different quantities. Records are grouped by dataset for that
+reason — transactions first (`ANOM-00001`..`ANOM-05282`), then accounts — each
+block sorted most-anomalous-first. Do not read the ordering as a single global
+ranking across both.
+
+`features` names the source columns the forest actually used to isolate that
+record (see *Feature attribution* below). For `trans.csv` records these are
+columns of trans.csv; for `account.csv` records they are aggregate feature names
+(`n_txn`, `amount_std`, ...), which have no single source column.
 
 ## Setup and run
 
@@ -101,7 +126,7 @@ the terminal, then writes the three CSVs.
 | `--out` | `./artifacts` | where outputs are written |
 | `--contamination` | `0.005` | expected anomaly fraction — a budget you choose, not a measurement |
 | `--seed` | `42` | random seed |
-| `--all-scores` | off | write all 1.06M transaction scores (~73 MB) |
+| `--all-scores` | off | write all 1.06M transaction scores (~101 MB) |
 
 The account model uses `4 x --contamination`, because accounts are 235x rarer
 than transactions and the same fraction would flag only ~22 of them.
@@ -148,6 +173,36 @@ cards, clients). Loan **status** is excluded on purpose.
 
 No feature scaling: Isolation Forest splits one feature at a time and is
 invariant to per-feature monotone rescaling.
+
+### Feature attribution
+
+Isolation Forest has no `feature_importances_` and no per-instance attribution —
+`score_samples` returns one scalar and nothing about why. The `features` field in
+`anomalies.json` is reconstructed from the isolation paths.
+
+The obvious approach does not work, and it is worth knowing why before
+"improving" it: crediting whichever feature each split used (weighted by depth)
+returns **the same three features for nearly every record**. Isolation Forest
+picks its split feature *uniformly at random*, independently of the data, so
+which features appear on a path is near-identical for anomalous and normal rows.
+
+What carries the signal is not which feature split, but how much isolation that
+split achieved. A split dropping a row from 256 candidate samples to 3 did the
+isolating; one going 256 → 128 did nothing. Each split is therefore credited
+`log(n_parent / n_child)` along the path the row actually took, summed over all
+200 trees and normalised to a share. Engineered features are then collapsed onto
+their source column (`log_amount` and `amount_z` both count toward `amount`).
+
+Sanity checks that this tracks the data rather than the tree structure:
+
+| Check | Result |
+|---|---|
+| transactions with `amount > 60k` citing `amount` | 64.7% |
+| transactions with `amount < 10k` citing `amount` | 0.8% |
+| pension (`DUCHOD`) rows citing `k_symbol` | 100% |
+
+This is a construction of this project, not a standard library output. For a
+citable alternative, SHAP's `TreeExplainer` supports IsolationForest.
 
 ## Other scripts in this repo
 
