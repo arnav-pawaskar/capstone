@@ -204,6 +204,73 @@ Sanity checks that this tracks the data rather than the tree structure:
 This is a construction of this project, not a standard library output. For a
 citable alternative, SHAP's `TreeExplainer` supports IsolationForest.
 
+## The fault-injection track
+
+`detect_anomalies.py` validates by triangulation because Berka has no labels.
+The second track manufactures the labels instead, and measures against them.
+
+```bash
+python inject_faults2.py     --raw ./data/raw    --out ./data/faulty
+python anomaly_detection.py  --raw ./data/faulty --out ./artifacts_faulty
+python evaluate_detection.py --faults ./data/faulty/injected_faults.json                              --anomalies ./artifacts_faulty/anomalies.json
+```
+
+| Script | Role |
+|---|---|
+| `inject_faults2.py` | corrupts copies of the 8 CSVs with 5 fault classes, logs every change as ground truth |
+| `anomaly_detection.py` | detector over all 8 tables; structural + constraint + Isolation Forest passes |
+| `evaluate_detection.py` | scores `anomalies.json` against `injected_faults.json`, recall per fault type |
+
+### Which detector to run
+
+They are not interchangeable, and the choice is not a preference.
+
+- **`anomaly_detection.py`** for anything involving injected faults, or any input
+  whose integrity is in question. It covers all eight tables and checks
+  constraints. It is also the only one that survives duplicate keys —
+  `detect_anomalies.py` asserts `trans_id` is unique and aborts, which is what
+  `data/faulty_nodup/` exists to work around.
+- **`detect_anomalies.py`** for the clean-Berka analysis. It is the only one that
+  produces the account-level model, the district rollup, the scored CSVs and the
+  loan-status validation. Its per-record attribution is also the better
+  implementation: vectorised, and it sums isolation credit per source column.
+
+Neither is a superset of the other. Long term they should be one script.
+
+### Measured accuracy
+
+Recall against `inject_faults2.py` ground truth (default `--rate 0.001`, seed 42),
+4,452 injected fault instances:
+
+| Fault class | Caught by | Recall |
+|---|---|---|
+| `duplicate_keys` | structural | 100.0% |
+| `referential_breaks` | structural | 100.0% |
+| `temporal_violations` | constraint | 100.0% |
+| `volume_spikes` | constraint | 100.0% |
+| `balance_corruption` | constraint + IF | 49.4% |
+| **all** | | **87.9%** |
+
+Precision against injected faults is 39.0%, which is a floor rather than an error
+rate: Berka contains real outliers that were never injected, and the clean-data
+run flags 800 records with nothing wrong injected at all.
+
+**The rules do the work, and that is the finding.** Isolation Forest alone
+recovers 6.9% of temporal violations and 10.7% of volume bursts. It picks its
+split feature uniformly at random across ~30 features, so a fault that lives in
+one column is diluted by roughly that factor — whereas a threshold on that one
+column recovers ~100%. Anything expressible as a violated constraint belongs in a
+check, not in the model. What is left for Isolation Forest is `balance_corruption`
+(a swapped balance violates no constraint) and genuinely unforeseen anomalies.
+
+`balance_corruption` at 49.4% is the honest ceiling of the current approach: 30%
+of those faults are swaps between two real rows, which are near-undetectable
+per-row. Note that reconstructing the accounting identity
+(`balance == prev_balance ± amount`) does **not** rescue it — that identity holds
+for only ~50-66% of *clean* Berka rows, because the balance sequence cannot be
+reconstructed from `(account_id, date, trans_id)`. It is a dead end; the residual
+is dominated by ordering error, not corruption.
+
 ## Other scripts in this repo
 
 `build_offline_lineage.py`, `export_to_gephi.py` and `render_offline_graph.py`

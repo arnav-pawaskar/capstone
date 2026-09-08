@@ -18,18 +18,33 @@ Score:
     So S(x, m) here is just -model.score_samples(X) -- no need to hand-roll
     path lengths or c(m).
 
-Two complementary passes per table:
+Three passes per table, in increasing order of how much they guess:
 
-  1. ML scoring   IsolationForest over engineered features, for the fault
-                   types that show up as distributional outliers:
-                   balance_corruption, temporal_violations, volume_spikes.
-  2. Rule checks   Direct duplicate-key and broken-foreign-key lookups, for
-                   the fault types Isolation Forest has no real way to catch:
-                   a model trained on distributions has no concept of "this
-                   primary key must be unique" or "this FK must resolve" --
-                   those are exact structural constraints, not statistical
-                   ones, so check them directly instead of hoping the model
-                   stumbles onto them.
+  1. Structural    Exact duplicate-key and broken-foreign-key lookups. A model
+                    trained on distributions has no concept of "this primary key
+                    must be unique" or "this FK must resolve".
+  2. Constraint    Exact temporal checks (an event predating its own parent, or a
+                    date outside the range the table occupies) and same-day burst
+                    counts, plus a per-account robust-z check on balance.
+  3. ML scoring    IsolationForest over engineered features -- the residual net
+                    for anomalies nobody wrote a check for.
+
+Passes 1 and 2 do nearly all the work, and that split is measured, not assumed.
+Isolation Forest picks its split feature uniformly at random over ~30 features,
+so a fault living in one feature is diluted by a factor of ~n_features. Measured
+against inject_faults2.py's ground truth (see evaluate_detection.py), the model
+alone recovered 6.9% of temporal violations and 10.7% of volume bursts, where a
+threshold on the single right column recovers ~100% of both. Anything expressible
+as a violated constraint therefore belongs in pass 1 or 2, not here.
+
+Balance corruption is the one genuinely statistical class -- a swapped balance
+violates no constraint -- so it stays a scored heuristic and the model keeps it.
+
+Recall by fault type on the default injection (rate 0.001, seed 42):
+
+    duplicate_keys       100.0%      temporal_violations  100.0%
+    referential_breaks   100.0%      volume_spikes        100.0%
+    balance_corruption    49.6%      ALL                   88.0%
 
 Every table has different columns, so each gets its own feature builder --
 see FEATURE_BUILDERS. district.csv and disp.csv have very little signal
@@ -40,6 +55,8 @@ sorted by score descending and numbered ANOM-00001, ANOM-00002, ...
 
 Usage:
     python anomaly_detection.py --raw ./data/faulty --out ./artifacts_faulty
+    python evaluate_detection.py --faults ./data/faulty/injected_faults.json \
+                                 --anomalies ./artifacts_faulty/anomalies.json
     python anomaly_detection.py --raw ./data/faulty --contamination 0.01
     python anomaly_detection.py --raw ./data/faulty --tables trans,loan,card
 """
@@ -129,6 +146,17 @@ def trans_features(tables):
     prev_balance = grp["balance"].shift(1)
     add_feature(X, names, "balance_delta", (df["balance"] - prev_balance).fillna(0.0), "balance")
 
+    # Balance relative to the account's OWN history. Without these the model sees
+    # only absolute balance, where a corrupted row hides inside the global
+    # distribution; adding them roughly triples recall on balance_corruption.
+    acct_med = grp["balance"].transform("median")
+    acct_mad = (df["balance"] - acct_med).abs().groupby(df["account_id"]).transform("median")
+    add_feature(X, names, "balance_robust_z",
+                ((df["balance"] - acct_med) / acct_mad.replace(0, np.nan)).fillna(0.0), "balance")
+    acct_max_bal = grp["balance"].transform("max")
+    add_feature(X, names, "balance_ratio",
+                np.where(acct_max_bal > 0, df["balance"] / acct_max_bal, 0.0), "balance")
+
     acct_mean = grp["amount"].transform("mean")
     acct_std = grp["amount"].transform("std").fillna(0.0)
     z = (df["amount"] - acct_mean) / acct_std.replace(0, np.nan)
@@ -158,9 +186,12 @@ def trans_features(tables):
     add_feature(X, names, "account_day_txn_count",
                 df.groupby(["account_id", "date"])["trans_id"]
                   .transform("size").astype(float), "date")
-    # FK fed in raw: referential_breaks rewrites this to a deliberately huge
-    # orphan id, which is trivially an outlier in its own right.
-    add_feature(X, names, "account_id_fk", df["account_id"], "account_id")
+    # NOTE: the raw account_id is deliberately NOT a feature. Broken FKs are
+    # caught exactly by structural_checks(), so feeding an arbitrary identifier
+    # to the model buys no recall and costs real accuracy: it is high-cardinality
+    # and meaningless-but-splittable, so it absorbs ~1/n_features of every tree's
+    # random split budget and isolates rows purely by where their id happens to
+    # sit in the range.
 
     for col in ["type", "operation", "k_symbol"]:
         add_dummies(X, names, df[col], col, col, dummy_na=True)
@@ -316,20 +347,21 @@ def attribute_features(model, X, feature_names, top_n=3):
                 if n_parent > 0 and n_child > 0:
                     credit[row, feat_idx[f]] += np.log(n_parent / n_child)
 
+    # Several engineered features share one source column (log_amount and
+    # amount_z are both `amount`), so their credit has to be SUMMED before
+    # ranking. Ranking individual features first and de-duplicating the display
+    # names afterwards lets a single mid-sized feature outrank a source column
+    # that several features jointly dominate -- it reports the wrong cause.
+    uniq = sorted(set(feature_names))
+    col_of = np.array([uniq.index(n) for n in feature_names])
+    by_col = np.zeros((n_samples, len(uniq)))
+    np.add.at(by_col.T, col_of, credit.T)
+
     results = []
     for row in range(n_samples):
-        ranked = np.argsort(-credit[row])
-        picked, seen = [], set()
-        for j in ranked:
-            name = feature_names[j]
-            if credit[row, j] <= 0:
-                break
-            if name not in seen:
-                picked.append(name)
-                seen.add(name)
-            if len(picked) == top_n:
-                break
-        results.append(picked or [feature_names[ranked[0]]])
+        ranked = np.argsort(-by_col[row])
+        picked = [uniq[j] for j in ranked[:top_n] if by_col[row, j] > 0]
+        results.append(picked or [uniq[ranked[0]]])
     return results
 
 
@@ -360,6 +392,139 @@ def structural_checks(tables):
     return records
 
 
+# ----------------------------------------------------------------------------
+# Deterministic constraint checks
+# ----------------------------------------------------------------------------
+# Isolation Forest is a *global density* model over ~30 features that picks its
+# split feature uniformly at random. A fault living in one feature therefore gets
+# diluted by a factor of ~n_features, which is why it recovers only single-digit
+# percentages of temporal and volume faults even when a one-line threshold on the
+# right column recovers ~100% of them (measured: 6.9% vs 99.7%).
+#
+# Temporal violations and volume bursts are not distributional oddities, they are
+# violated constraints -- exactly like a duplicate key or a dangling FK. So they
+# belong here, checked exactly, and not left to the model to stumble onto.
+#
+# Balance corruption is the one genuinely statistical class (a swapped balance is
+# not a violated constraint), so it stays a scored heuristic rather than a hard
+# rule, and Isolation Forest keeps it as well.
+
+# Faults are assumed rare, so the 0.1%/99.9% quantiles of a date column still sit
+# inside the clean bulk. That derives the plausible window from the data rather
+# than hardcoding Berka's 1993-1998 range.
+DATE_QUANTILE = 0.001
+# Per-account robust z (median/MAD) above which a balance is called corrupt.
+# 10 is the knee of the recall/precision curve on injected data (49% / 56%);
+# lower floods the output, higher trades away most of the recall.
+BALANCE_ROBUST_Z = 10.0
+# A burst is "more same-day events on one parent than the clean data ever shows".
+# Derived per table from its own group-size distribution rather than fixed.
+BURST_QUANTILE = 0.9999
+# Pre-open transactions on one account before the ACCOUNT's own date is blamed
+# rather than the transactions'. See the note in constraint_checks().
+MIN_PREOPEN_TXNS = 2
+
+
+def _robust_z(values, group):
+    """Per-group |median-centred z| using MAD, which a corrupted row cannot drag
+    the way mean/std lets it mask itself."""
+    med = values.groupby(group).transform("median")
+    mad = (values - med).abs().groupby(group).transform("median")
+    return ((values - med) / mad.replace(0, np.nan)).abs().fillna(0.0)
+
+
+def _burst_threshold(group_sizes):
+    """Largest same-day group the clean data plausibly produces.
+
+    Must be computed on the GROUP SIZES, not on the per-row transform of them:
+    a burst of k rows contributes k copies of the value k, so the transform
+    inflates its own tail quadratically and the quantile lands exactly ON the
+    burst value -- making `> threshold` match nothing. (Measured: on the per-row
+    series quantile(.9999) == 31 == the injected burst size, recall 8%.)
+    """
+    return max(float(group_sizes.quantile(BURST_QUANTILE)), 1.0)
+
+
+def constraint_checks(tables):
+    """Exact checks for the fault classes that are constraint violations rather
+    than density outliers. Returns records in the same shape as
+    structural_checks()."""
+    records = []
+
+    def emit(table, ids, feature):
+        for rid in pd.Series(ids).dropna().unique():
+            records.append({"dataset": f"{table}.csv", "record_id": int(rid),
+                            "score": 1.0, "features": [feature]})
+
+    account = tables["account"]
+    acct_open = dict(zip(account["account_id"], parse_flex_date(account["date"])))
+
+    # --- temporal: a child event before its parent account existed, or a date
+    #     outside the range the bulk of the table occupies ---
+    bad_dates = {}
+    for table, date_col, parent_of in (
+        ("trans", "date", lambda df: df["account_id"]),
+        ("loan", "date", lambda df: df["account_id"]),
+        ("card", "issued", lambda df: df["disp_id"].map(
+            dict(zip(tables["disp"]["disp_id"], tables["disp"]["account_id"])))),
+    ):
+        df = tables[table]
+        dt = parse_flex_date(df[date_col])
+        open_dt = pd.to_datetime(parent_of(df).map(acct_open))
+        before_parent = (dt < open_dt).fillna(False)
+        # Quantile the YEAR, not the timestamp. A quantile of a continuous date
+        # always has data beyond it, so a raw-timestamp fence flags a fixed
+        # 2*DATE_QUANTILE of *any* input, clean or not (measured: 1,054 false
+        # positives on untouched Berka). Snapping to whole years makes the fence
+        # land on a year boundary, so clean data produces none.
+        year = dt.dt.year
+        lo, hi = year.quantile(DATE_QUANTILE), year.quantile(1 - DATE_QUANTILE)
+        out_of_range = ((year < lo) | (year > hi)).fillna(False)
+        if table == "trans":
+            bad_dates["trans_before_parent"] = before_parent
+        emit(table, df.loc[before_parent | out_of_range, CHILD_PK[table]], date_col)
+
+    # "transaction predates its account" and "account opened after its own first
+    # transaction" are the SAME violation seen from opposite sides, and nothing in
+    # the data says which side is corrupt. Corrupting one transaction produces
+    # exactly one violation, so a *second* one on the same account is evidence
+    # that the account's open date moved instead. Requiring two catches all five
+    # injected account faults for 48 extra account flags; flagging on one flags
+    # 551 of 4,504 accounts, almost all of them collateral from trans-side faults.
+    #
+    # The transactions stay flagged either way. Withholding them would trade
+    # ~90 real trans-side faults for 5 account-side ones, and when two rows
+    # predate an account's open date both records genuinely warrant review.
+    txn = tables["trans"]
+    n_before = bad_dates["trans_before_parent"].groupby(txn["account_id"]).transform("sum")
+    emit("account", txn.loc[n_before >= MIN_PREOPEN_TXNS, "account_id"], "date")
+
+    # --- volume: more same-day events on one parent than the clean data shows ---
+    def emit_bursts(table, keys, pk, feature):
+        g = tables[table].groupby(keys)
+        thr = _burst_threshold(g.size())
+        per_row = g[pk].transform("size")
+        emit(table, tables[table].loc[per_row > thr, pk], feature)
+
+    trans = tables["trans"]
+    emit_bursts("trans", ["account_id", "date"], "trans_id", "account_day_txn_count")
+    emit_bursts("card", ["disp_id"], "card_id", "n_cards_per_disp")
+
+    # loans burst across a district, so the group key lives on account, not loan
+    loan = tables["loan"]
+    dist_of = dict(zip(account["account_id"], account["district_id"]))
+    loan_key = pd.DataFrame({"d": loan["account_id"].map(dist_of), "date": loan["date"]})
+    loan_grp = loan_key.groupby(["d", "date"])["date"]
+    emit("loan", loan.loc[loan_grp.transform("size") > _burst_threshold(loan_grp.size()),
+                          "loan_id"], "district_day_loan_count")
+
+    # --- balance: scored heuristic, not a hard rule (see module note above) ---
+    z = _robust_z(trans["balance"], trans["account_id"])
+    emit("trans", trans.loc[z > BALANCE_ROBUST_Z, "trans_id"], "balance_robust_z")
+
+    return records
+
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--raw", default="./data/raw")
@@ -387,6 +552,11 @@ def main():
     print("\n=== rule-based structural checks ===")
     all_records = structural_checks(tables)
     print(f"  duplicate keys + broken foreign keys: {len(all_records)} flagged")
+
+    print("\n=== deterministic constraint checks ===")
+    constraint_records = constraint_checks(tables)
+    all_records += constraint_records
+    print(f"  temporal / volume / balance constraints: {len(constraint_records)} flagged")
 
     print("\n=== isolation forest per table ===")
     for table in selected:

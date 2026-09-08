@@ -29,6 +29,13 @@ table+column combinations each fault type touches, and why:
 Each fault is logged with enough detail (table, key, old value, new value) to check
 later whether your detector's flagged trans_id/account_id set actually covers it.
 
+For point faults `record_id` is the corrupted row's own primary key. For
+volume_spikes it is the *parent* the burst was attached to (an account_id,
+district_id or disp_id) -- the rows a detector can actually flag are the
+synthetic children, whose primary keys are listed in `record_ids`. Score against
+`record_ids` where it is present, or you will measure a recall of zero on this
+fault class purely because the key spaces do not match.
+
 Usage:
     python inject_faults2.py --raw ./data/raw --out ./data/faulty
     python inject_faults2.py --raw ./data/raw --out ./data/faulty --rate 0.002 --seed 7
@@ -324,7 +331,7 @@ def _spike_trans(tables, rng, n_accounts, spike_size, log):
             next_trans_id += 1
 
         log.append({"fault_type": "volume_spikes", "table": "trans",
-                     "record_id": int(acc), "mode": "burst",
+                     "record_id": int(acc), "record_ids": new_ids, "mode": "burst",
                      "detail": f"{spike_size} synthetic transactions added on date {spike_date} "
                                f"(that day normally had {len(day_rows)}); "
                                f"trans_ids {new_ids[0]}-{new_ids[-1]}"})
@@ -371,7 +378,7 @@ def _spike_loan(tables, rng, n_bursts, log):
             new_ids.append(next_loan_id)
             next_loan_id += 1
         log.append({"fault_type": "volume_spikes", "table": "loan",
-                     "record_id": int(dist), "mode": "burst",
+                     "record_id": int(dist), "record_ids": new_ids, "mode": "burst",
                      "detail": f"{burst_size} synthetic loans granted on date {burst_date} "
                                f"across district {int(dist)}; loan_ids {new_ids[0]}-{new_ids[-1]}"})
 
@@ -410,7 +417,7 @@ def _spike_card(tables, rng, n_bursts, log):
             new_ids.append(next_card_id)
             next_card_id += 1
         log.append({"fault_type": "volume_spikes", "table": "card",
-                     "record_id": int(d), "mode": "burst",
+                     "record_id": int(d), "record_ids": new_ids, "mode": "burst",
                      "detail": f"{burst_size} synthetic cards issued on date {burst_date} "
                                f"to disp_id {int(d)}; card_ids {new_ids[0]}-{new_ids[-1]}"})
 
