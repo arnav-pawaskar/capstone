@@ -134,9 +134,30 @@ def trans_features(tables):
     z = (df["amount"] - acct_mean) / acct_std.replace(0, np.nan)
     add_feature(X, names, "amount_z", z.fillna(0.0), "amount")
 
-    add_feature(X, names, "days_since_prev", grp["dt"].diff().dt.days.fillna(0.0), "date")
+    # -1 marks "no previous transaction", which 0 cannot -- 0 is a real value
+    # meaning "same day as the previous one".
+    add_feature(X, names, "days_since_prev", grp["dt"].diff().dt.days.fillna(-1.0), "date")
     add_feature(X, names, "day_of_month", df["dt"].dt.day.fillna(0), "date")
     add_feature(X, names, "month", df["dt"].dt.month.fillna(0), "date")
+    # day_of_month and month are cyclic: a row moved to 1991 or to 2000 lands on
+    # an ordinary day of an ordinary month and is invisible in them. A monotone
+    # time axis is what makes temporal_violations separable at all.
+    add_feature(X, names, "year", df["dt"].dt.year.fillna(0), "date")
+    # A transaction dated before its own account opened is a hard violation, not
+    # a distributional oddity -- it shows up here as a negative value, a sign no
+    # legitimate row can have. NaT (orphan account_id) falls back to 0.
+    acct_open = dict(zip(tables["account"]["account_id"],
+                          parse_flex_date(tables["account"]["date"])))
+    open_dt = pd.to_datetime(df["account_id"].map(acct_open))
+    add_feature(X, names, "days_since_account_open",
+                (df["dt"] - open_dt).dt.days.fillna(0.0), "date")
+    # volume_spikes are a frequency signal, not a magnitude one: the burst rows
+    # are sampled from the account's own history, so amount and type look
+    # normal. How many transactions this account posted on this row's own day is
+    # the only column that separates them.
+    add_feature(X, names, "account_day_txn_count",
+                df.groupby(["account_id", "date"])["trans_id"]
+                  .transform("size").astype(float), "date")
     # FK fed in raw: referential_breaks rewrites this to a deliberately huge
     # orphan id, which is trivially an outlier in its own right.
     add_feature(X, names, "account_id_fk", df["account_id"], "account_id")
@@ -341,8 +362,8 @@ def structural_checks(tables):
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("--raw", default="./data")
-    p.add_argument("--out", default="./artifacts")
+    p.add_argument("--raw", default="./data/raw")
+    p.add_argument("--out", default="./artifacts_faulty")
     p.add_argument("--contamination", type=float, default=0.005,
                    help="expected anomaly fraction per table, passed straight to IsolationForest")
     p.add_argument("--n-estimators", type=int, default=100)

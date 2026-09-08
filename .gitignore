@@ -31,3 +31,14 @@ data/raw/
 artifacts/anomaly_scores_trans_full.csv
 
 .DS_Store
+
+# Fault-injected copies of the raw CSVs — ~70MB per run, regenerated in seconds
+# by inject_faults2.py. injected_faults.json/.csv live inside these directories:
+# they are small, but they are ground truth for one specific corrupted copy and
+# are meaningless apart from it, so they go with it.
+data/faulty*/
+
+# Detector output from a fault-injected run. The clean-run artifacts/ outputs
+# are tracked (see above); these are per-injection and regenerated with them.
+artifacts_faulty/
+artifacts_ad_nodup/

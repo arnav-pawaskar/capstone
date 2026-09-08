@@ -5,8 +5,9 @@ Berka ships no fraud labels, which is exactly why validate() in detect_anomalies
 has to triangulate instead of measuring precision/recall directly. This script
 gives you the ground truth that's otherwise missing: it injects five controlled
 fault classes into copies of the raw CSVs and logs exactly what it changed, so you
-can run detect_anomalies.py against the output and check how many injected faults
-it actually caught.
+can run anomaly_detection.py against the output and check how many injected faults
+it actually caught. (Use anomaly_detection.py, not detect_anomalies.py: the latter
+asserts trans_id is unique, which duplicate_keys deliberately violates.)
 
 Each fault type is applied to every table where it's semantically meaningful, not
 just trans/account — see the *_SPECS constants below for exactly which
@@ -29,13 +30,13 @@ Each fault is logged with enough detail (table, key, old value, new value) to ch
 later whether your detector's flagged trans_id/account_id set actually covers it.
 
 Usage:
-    python inject_faults.py --raw ./data --out ./data/faulty
-    python inject_faults.py --raw ./data --out ./data/faulty --rate 0.002 --seed 7
-    python inject_faults.py --raw ./data --out ./data/faulty \\
+    python inject_faults2.py --raw ./data/raw --out ./data/faulty
+    python inject_faults2.py --raw ./data/raw --out ./data/faulty --rate 0.002 --seed 7
+    python inject_faults2.py --raw ./data/raw --out ./data/faulty \\
         --only duplicate_keys,volume_spikes
 
 Then:
-    python detect_anomalies.py --raw ./data/faulty --out ./artifacts_faulty
+    python anomaly_detection.py --raw ./data/faulty --out ./artifacts_faulty
     # compare anomalies.json / anomaly_scores_*.csv against injected_faults.json
 """
 
@@ -186,6 +187,12 @@ def inject_balance_corruption(tables, rng, rate, log):
     loan.amount, order.amount."""
     for table, pk, col in BALANCE_SPECS:
         df = tables[table]
+        # The shock below produces a float (factor + gaussian noise) and the
+        # swap can move a float into an int column. loan.amount ships as int64,
+        # and pandas 3.x refuses that point-write outright rather than upcasting.
+        # Widen once, up front, so the fault types are order-independent --
+        # otherwise this only works when duplicate_keys happens to run first.
+        df[col] = df[col].astype(float)
         n = max(1, round(rate * len(df)))
         pool = list(rng.permutation(df.index))[:n]
         while pool:
@@ -432,7 +439,7 @@ FAULT_ORDER = ["duplicate_keys", "referential_breaks", "balance_corruption",
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("--raw", default="./data")
+    p.add_argument("--raw", default="./data/raw")
     p.add_argument("--out", default="./data/faulty")
     p.add_argument("--rate", type=float, default=0.001,
                    help="fraction of rows to corrupt per point-fault type (duplicate/"
@@ -487,7 +494,7 @@ def main():
         print(f"  {os.path.join(args.out, name + '.csv')}: {len(tables[name]):,} rows{note}")
     print(f"  {os.path.join(args.out, 'injected_faults.json')}: {len(log)} faults")
     print(f"  {os.path.join(args.out, 'injected_faults.csv')}: flat ground-truth table")
-    print("\nNext: python detect_anomalies.py --raw", args.out, "--out ./artifacts_faulty")
+    print("\nNext: python anomaly_detection.py --raw", args.out, "--out ./artifacts_faulty")
 
 
 if __name__ == "__main__":
