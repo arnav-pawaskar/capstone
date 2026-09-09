@@ -273,7 +273,11 @@ is dominated by ordering error, not corruption.
 
 ## Other scripts in this repo
 
-`build_offline_lineage.py`, `export_to_gephi.py` and `render_offline_graph.py`
-are a separate lineage-graph track and need `kuzu`, `networkx` and `pyvis`
-— none of which `detect_anomalies.py` requires. `requirements-anomaly.txt`
-covers the anomaly script only.
+`build_offline_lineage.py` is a separate lineage-graph track and needs `kuzu`
+and `networkx`, neither of which the anomaly scripts require —
+`requirements-anomaly.txt` covers the anomaly scripts only. It builds the
+table-level FK graph that root-cause tracing will walk, and is kept for that.
+
+The Gephi export and the pyvis renderer that used to sit alongside it were
+visualisation-only side branches and have been removed; recover them from
+`af891f2` if a graph picture is ever wanted again.
